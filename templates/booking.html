@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Flight - American Airlines</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-plane me-2"></i>
+                <strong>American Airlines</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-plane me-1"></i>Flights</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-hotel me-1"></i>Hotels</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-car me-1"></i>Cars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-ship me-1"></i>Cruises</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-suitcase me-1"></i>Vacations</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signin"><i class="fas fa-user me-1"></i>Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-question-circle me-1"></i>Help</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Booking Progress -->
+    <div class="bg-light py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                        <div class="booking-progress">
+                            <div class="progress-step active">
+                                <div class="progress-circle">1</div>
+                                <span>Flight Details</span>
+                            </div>
+                            <div class="progress-line"></div>
+                            <div class="progress-step">
+                                <div class="progress-circle">2</div>
+                                <span>Passenger Info</span>
+                            </div>
+                            <div class="progress-line"></div>
+                            <div class="progress-step">
+                                <div class="progress-circle">3</div>
+                                <span>Seat Selection</span>
+                            </div>
+                            <div class="progress-line"></div>
+                            <div class="progress-step">
+                                <div class="progress-circle">4</div>
+                                <span>Payment</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flight Summary -->
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-plane me-2"></i>Flight Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="flightSummary">
+                            <!-- Flight details will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passenger Information -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-user me-2"></i>Passenger Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="passengerForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">First Name *</label>
+                                    <input type="text" class="form-control" id="firstName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Last Name *</label>
+                                    <input type="text" class="form-control" id="lastName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Phone Number *</label>
+                                    <input type="tel" class="form-control" id="phone" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="dateOfBirth" class="form-label">Date of Birth *</label>
+                                    <input type="date" class="form-control" id="dateOfBirth" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="passportNumber" class="form-label">Passport Number (International)</label>
+                                    <input type="text" class="form-control" id="passportNumber">
+                                </div>
+                                <div class="col-12">
+                                    <label for="address" class="form-label">Address</label>
+                                    <textarea class="form-control" id="address" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Seat Selection -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-chair me-2"></i>Seat Selection</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Economy Class</h6>
+                                <div class="seat-options">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="seatType" id="economyBasic" value="economy_basic" checked>
+                                        <label class="form-check-label" for="economyBasic">
+                                            Basic Economy - No seat assignment
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="seatType" id="economyStandard" value="economy_standard">
+                                        <label class="form-check-label" for="economyStandard">
+                                            Standard Economy - Choose your seat (+$15)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="seatType" id="economyPremium" value="economy_premium">
+                                        <label class="form-check-label" for="economyPremium">
+                                            Premium Economy - Extra legroom (+$35)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Upgrades</h6>
+                                <div class="seat-options">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="priorityBoarding" value="priority_boarding">
+                                        <label class="form-check-label" for="priorityBoarding">
+                                            Priority Boarding (+$25)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="checkedBag" value="checked_bag">
+                                        <label class="form-check-label" for="checkedBag">
+                                            First Checked Bag (+$30)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Information -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-credit-card me-2"></i>Payment Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="paymentForm">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label for="cardNumber" class="form-label">Card Number *</label>
+                                    <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="expiryDate" class="form-label">Expiry Date *</label>
+                                    <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="cvv" class="form-label">CVV *</label>
+                                    <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="cardholderName" class="form-label">Cardholder Name *</label>
+                                    <input type="text" class="form-control" id="cardholderName" required>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="saveCard" value="save_card">
+                                        <label class="form-check-label" for="saveCard">
+                                            Save this card for future bookings
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="termsAccept" required>
+                            <label class="form-check-label" for="termsAccept">
+                                I agree to the <a href="#" class="text-primary">Terms and Conditions</a> and <a href="#" class="text-primary">Privacy Policy</a> *
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Actions -->
+                <div class="d-flex gap-3">
+                    <button type="button" class="btn btn-outline-secondary btn-lg" onclick="history.back()">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Back to Search
+                    </button>
+                    <button type="button" class="btn btn-primary btn-lg" id="bookFlight">
+                        <i class="fas fa-check me-2"></i>
+                        Book Flight
+                    </button>
+                </div>
+            </div>
+
+            <!-- Price Summary Sidebar -->
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 20px;">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-calculator me-2"></i>Price Summary</h6>
+                    </div>
+                    <div class="card-body">
+                        <div id="priceSummary">
+                            <!-- Price details will be populated by JavaScript -->
+                        </div>
+                        <hr>
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-success btn-lg" id="confirmBooking">
+                                <i class="fas fa-plane me-2"></i>
+                                Confirm Booking
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>About American Airlines</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Careers</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Newsroom</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Customer Service</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Contact Us</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Help</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Baggage</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Follow Us</h6>
+                    <div class="social-links">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 American Airlines. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/booking.js"></script>
+</body>
+</html>

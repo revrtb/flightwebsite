@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American Airlines - Book Flights, Hotels, Cars, Vacations & Cruises</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-plane me-2"></i>
+                <strong>American Airlines</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-plane me-1"></i>Flights</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-hotel me-1"></i>Hotels</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-car me-1"></i>Cars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-ship me-1"></i>Cruises</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-suitcase me-1"></i>Vacations</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signin"><i class="fas fa-user me-1"></i>Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-question-circle me-1"></i>Help</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <h1 class="display-4 text-white fw-bold mb-4">
+                        Where would you like to go?
+                    </h1>
+                    <p class="lead text-white mb-5">
+                        Book flights to over 350 destinations worldwide with American Airlines
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="search-card">
+                        <div class="card shadow-lg border-0">
+                            <div class="card-body p-4">
+                                <h5 class="card-title mb-4">
+                                    <i class="fas fa-search me-2 text-primary"></i>
+                                    Search Flights
+                                </h5>
+                                
+                                <form id="flightSearchForm">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="tripType" class="form-label">Trip Type</label>
+                                            <select class="form-select" id="tripType">
+                                                <option value="roundtrip">Round Trip</option>
+                                                <option value="oneway">One Way</option>
+                                                <option value="multi">Multi-City</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="passengers" class="form-label">Passengers</label>
+                                            <select class="form-select" id="passengers">
+                                                <option value="1">1 Adult</option>
+                                                <option value="2">2 Adults</option>
+                                                <option value="3">3 Adults</option>
+                                                <option value="4">4 Adults</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="origin" class="form-label">From</label>
+                                            <select class="form-select" id="origin" required>
+                                                <option value="">Select departure city</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="destination" class="form-label">To</label>
+                                            <select class="form-select" id="destination" required>
+                                                <option value="">Select arrival city</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="departDate" class="form-label">Departure Date</label>
+                                            <input type="date" class="form-control" id="departDate" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="returnDate" class="form-label">Return Date</label>
+                                            <input type="date" class="form-control" id="returnDate">
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                                <i class="fas fa-search me-2"></i>
+                                                Search Flights
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card p-4">
+                        <i class="fas fa-plane-departure fa-3x text-primary mb-3"></i>
+                        <h4>Worldwide Destinations</h4>
+                        <p class="text-muted">Fly to over 350 destinations across 50+ countries</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card p-4">
+                        <i class="fas fa-award fa-3x text-primary mb-3"></i>
+                        <h4>AAdvantage Program</h4>
+                        <p class="text-muted">Earn miles on every flight and redeem for rewards</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card p-4">
+                        <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                        <h4>Safe & Reliable</h4>
+                        <p class="text-muted">Your safety is our top priority with enhanced cleaning</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Destinations -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Popular Destinations</h2>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=300&h=200&fit=crop" alt="New York" class="img-fluid rounded">
+                        <div class="destination-overlay">
+                            <h5>New York</h5>
+                            <p>From $199</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=300&h=200&fit=crop" alt="Los Angeles" class="img-fluid rounded">
+                        <div class="destination-overlay">
+                            <h5>Los Angeles</h5>
+                            <p>From $299</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1494522358658-554d4e4c0f7e?w=300&h=200&fit=crop" alt="Miami" class="img-fluid rounded">
+                        <div class="destination-overlay">
+                            <h5>Miami</h5>
+                            <p>From $179</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop" alt="Chicago" class="img-fluid rounded">
+                        <div class="destination-overlay">
+                            <h5>Chicago</h5>
+                            <p>From $159</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>About American Airlines</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Careers</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Newsroom</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Customer Service</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Contact Us</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Help</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Baggage</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Follow Us</h6>
+                    <div class="social-links">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 American Airlines. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

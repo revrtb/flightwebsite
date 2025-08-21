@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Search Results - American Airlines</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-plane me-2"></i>
+                <strong>American Airlines</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-plane me-1"></i>Flights</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-hotel me-1"></i>Hotels</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-car me-1"></i>Cars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-ship me-1"></i>Cruises</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-suitcase me-1"></i>Vacations</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signin"><i class="fas fa-user me-1"></i>Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-question-circle me-1"></i>Help</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Header -->
+    <div class="bg-light py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h4 class="mb-2">
+                        <i class="fas fa-search me-2 text-primary"></i>
+                        Flight Search Results
+                    </h4>
+                    <p class="mb-0 text-muted" id="searchSummary">
+                        <!-- Search summary will be populated by JavaScript -->
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="/" class="btn btn-outline-primary">
+                        <i class="fas fa-edit me-2"></i>
+                        Modify Search
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters and Results -->
+    <div class="container py-4">
+        <div class="row">
+            <!-- Filters Sidebar -->
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-filter me-2"></i>Filters</h6>
+                    </div>
+                    <div class="card-body">
+                        <!-- Price Range -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Price Range</label>
+                            <div class="d-flex gap-2">
+                                <input type="number" class="form-control form-control-sm" placeholder="Min" id="minPrice">
+                                <input type="number" class="form-control form-control-sm" placeholder="Max" id="maxPrice">
+                            </div>
+                            <div class="form-text">Enter price range in USD</div>
+                        </div>
+
+                        <!-- Stops -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Stops</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="0" id="nonstop" checked>
+                                <label class="form-check-label" for="nonstop">
+                                    Nonstop
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="onestop">
+                                <label class="form-check-label" for="onestop">
+                                    1 Stop
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Airlines -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Airlines</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="American Airlines" id="aa" checked>
+                                <label class="form-check-label" for="aa">
+                                    American Airlines
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="American Eagle" id="ae" checked>
+                                <label class="form-check-label" for="ae">
+                                    American Eagle
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="American Connection" id="ac" checked>
+                                <label class="form-check-label" for="ac">
+                                    American Connection
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Departure Time -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Departure Time</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="morning" id="morning">
+                                <label class="form-check-label" for="morning">
+                                    6 AM - 12 PM
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="afternoon" id="afternoon">
+                                <label class="form-check-label" for="afternoon">
+                                    12 PM - 6 PM
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="evening" id="evening">
+                                <label class="form-check-label" for="evening">
+                                    6 PM - 12 AM
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Route Type -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Route Type</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="major" id="major" checked>
+                                <label class="form-check-label" for="major">
+                                    Major Routes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="regional" id="regional" checked>
+                                <label class="form-check-label" for="regional">
+                                    Regional Routes
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary w-100" id="applyFilters">
+                            <i class="fas fa-check me-2"></i>
+                            Apply Filters
+                        </button>
+                        
+                        <button class="btn btn-outline-secondary w-100 mt-2" id="clearFilters">
+                            <i class="fas fa-times me-2"></i>
+                            Clear Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flight Results -->
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <span class="text-muted" id="resultCount">
+                            <!-- Result count will be populated by JavaScript -->
+                        </span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <select class="form-select form-select-sm" id="sortBy">
+                            <option value="price">Sort by Price</option>
+                            <option value="duration">Sort by Duration</option>
+                            <option value="departure">Sort by Departure Time</option>
+                            <option value="arrival">Sort by Arrival Time</option>
+                            <option value="stops">Sort by Stops</option>
+                        </select>
+                        <select class="form-select form-select-sm" id="resultsPerPage">
+                            <option value="20">20 per page</option>
+                            <option value="50">50 per page</option>
+                            <option value="100">100 per page</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="flightResults">
+                    <!-- Flight results will be populated by JavaScript -->
+                </div>
+
+                <div class="text-center py-4" id="loadingSpinner" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>About American Airlines</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Careers</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Newsroom</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Customer Service</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Contact Us</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Help</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Baggage</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Follow Us</h6>
+                    <div class="social-links">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 American Airlines. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/search.js"></script>
+</body>
+</html>
