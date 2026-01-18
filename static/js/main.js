@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set default dates
     setDefaultDates();
+    
+    // Set initial trip type visibility
+    handleTripTypeChange();
 });
 
 function initializePage() {
