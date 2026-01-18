@@ -13,12 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set default dates
     setDefaultDates();
     
-    // Ensure trip type is set to "oneway" and hide return date
-    const tripTypeSelect = document.getElementById('tripType');
-    if (tripTypeSelect) {
-        tripTypeSelect.value = 'oneway';
-        handleTripTypeChange();
-    }
+    // Set initial trip type visibility based on default selection
+    handleTripTypeChange();
 });
 
 function initializePage() {
