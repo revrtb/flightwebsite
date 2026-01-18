@@ -13,8 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set default dates
     setDefaultDates();
     
-    // Set initial trip type visibility
-    handleTripTypeChange();
+    // Ensure trip type is set to "oneway" and hide return date
+    const tripTypeSelect = document.getElementById('tripType');
+    if (tripTypeSelect) {
+        tripTypeSelect.value = 'oneway';
+        handleTripTypeChange();
+    }
 });
 
 function initializePage() {
@@ -136,8 +140,14 @@ function setDefaultDates() {
 }
 
 function handleTripTypeChange() {
-    const tripType = document.getElementById('tripType').value;
-    const returnDateGroup = document.getElementById('returnDate').closest('.col-md-6');
+    const tripTypeSelect = document.getElementById('tripType');
+    const returnDateGroup = document.getElementById('returnDateGroup');
+    
+    if (!tripTypeSelect || !returnDateGroup) {
+        return; // Elements not found, exit early
+    }
+    
+    const tripType = tripTypeSelect.value;
     
     if (tripType === 'oneway') {
         returnDateGroup.style.display = 'none';
