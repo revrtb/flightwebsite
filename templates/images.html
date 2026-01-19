@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Images - American Airlines</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <!-- Link element for image preload - not rendered directly in page -->
+    <link rel="preload" href="/static/images/download10.jpeg" as="image">
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon1.svg">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
+    <style>
+        .pseudo-image-before::before {
+            content: url('/static/images/gplaypattern.jpg');
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .pseudo-image-after::after {
+            content: url('/static/images/download1.jpeg');
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .pseudo-image-inline::before {
+            content: url('/static/images/download2.jpg');
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        /* Object element hover animations */
+        .svg-object-container {
+            display: inline-block;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .svg-object-container:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+        }
+        
+        .svg-object-container object {
+            display: block;
+            transition: opacity 0.3s ease;
+        }
+        
+        .svg-object-container:hover object {
+            opacity: 0.9;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .svg-object-container:hover object {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-plane me-2"></i>
+                <strong>American Airlines</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-plane me-1"></i>Flights</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/images"><i class="fas fa-images me-1"></i>Images</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">Images Page</h1>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">Image Tag Example</h2>
+                    <img src="/static/images/download3.jpeg" alt="Tools QA Logo" class="img-fluid rounded shadow">
+                </div>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">Picture Tag Example</h2>
+                    <picture>
+                        <source media="(min-width: 768px)" srcset="/static/images/download4.jpeg">
+                        <source media="(max-width: 767px)" srcset="/static/images/download5.jpeg">
+                        <img src="/static/images/download6.jpeg" alt="Responsive Image" class="img-fluid rounded shadow">
+                    </picture>
+                </div>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">Video Tag Example</h2>
+                    <video poster="/static/images/download7.jpeg" controls class="img-fluid rounded shadow">
+                        <source src="/static/videos/sample.mp4" type="video/mp4">
+                        <source src="/static/videos/sample.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">Div with Background Image Example</h2>
+                    <div style="background-image: url('/static/images/WB.svg'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 400px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" class="d-flex align-items-center justify-content-center">
+                        <p class="text-white fw-bold fs-4" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Content with SVG Background</p>
+                    </div>
+                </div>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">CSS content: url() with Pseudo-elements Example</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>Using ::before pseudo-element:</strong></p>
+                        <div class="pseudo-image-before p-3 bg-light rounded">
+                            This content has an image added before it using CSS content: url()
+                        </div>
+                        
+                        <p class="mb-3 mt-4"><strong>Using ::after pseudo-element:</strong></p>
+                        <div class="pseudo-image-after p-3 bg-light rounded">
+                            This content has an image added after it using CSS content: url()
+                        </div>
+                        
+                        <p class="mb-3 mt-4"><strong>Using ::before inline:</strong></p>
+                        <div class="pseudo-image-inline p-3 bg-light rounded">
+                            This text has an inline image before it
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">Canvas drawImage() Example</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3">Image drawn on canvas element using drawImage() - no &lt;img&gt; tag in DOM</p>
+                        <canvas id="imageCanvas" width="800" height="400" class="img-fluid rounded shadow" style="max-width: 100%; height: auto; border: 1px solid #dee2e6;"></canvas>
+                    </div>
+                </div>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">Iframe src Example</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3">Image loaded inside iframe element - not visible in parent DOM as &lt;img&gt; tag</p>
+                        <iframe src="/static/images/download8.jpeg" width="100%" height="400" frameborder="0" class="rounded shadow" style="border: 1px solid #dee2e6; max-width: 800px;"></iframe>
+                        <p class="mt-3 text-muted small">Note: The image is displayed inside the iframe, not as an &lt;img&gt; element in the parent page DOM.</p>
+                    </div>
+                </div>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">Link href Example</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>Link element for image preload - not rendered directly in page</strong></p>
+                        <p>The image <code>download10.jpeg</code> is preloaded using a <code>&lt;link&gt;</code> element in the <code>&lt;head&gt;</code> section:</p>
+                        <pre class="bg-light p-3 rounded"><code>&lt;link rel="preload" href="/static/images/download10.jpeg" as="image"&gt;</code></pre>
+                        <p class="mt-3 text-muted small">This preloads the image for faster loading when it's needed later. The image is not rendered directly in the page - it's cached by the browser for future use. Check the browser's Network tab to see the preload request.</p>
+                        <p class="mt-2"><strong>Note:</strong> The <code>&lt;link&gt;</code> element is also commonly used for favicons with <code>rel="icon"</code>.</p>
+                    </div>
+                </div>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">Object data Example</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>Object element with SVG - interactive with hover animations</strong></p>
+                        <p>SVG rendered inside object element - hover over it to see animations:</p>
+                        <div class="svg-object-container d-inline-block">
+                            <object data="/static/images/svg1.svg" type="image/svg+xml" width="400" height="400" class="rounded shadow">
+                                <p>Your browser does not support SVG</p>
+                            </object>
+                        </div>
+                        <p class="mt-3 text-muted small">The SVG is rendered inside the <code>&lt;object&gt;</code> element and can be interactive. Hover effects include scale, rotation, drop shadow, and pulse animation.</p>
+                    </div>
+                </div>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">Embed src Example</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>Embed element with SVG - similar to object, no animations</strong></p>
+                        <p>SVG embedded using embed element:</p>
+                        <embed src="/static/images/svg2.svg" type="image/svg+xml" width="400" height="400" class="rounded shadow">
+                        <p class="mt-3 text-muted small">The SVG is embedded using the <code>&lt;embed&gt;</code> element, which is similar to <code>&lt;object&gt;</code> but simpler. This example has no animations - just static SVG display.</p>
+                    </div>
+                </div>
+                
+                <div class="mb-5">
+                    <h2 class="mb-3">Inline SVG Example</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>Inline SVG element - SVG is part of DOM, fully scalable</strong></p>
+                        <p>SVG embedded directly in HTML as inline SVG:</p>
+                        <div class="d-inline-block">
+                            <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="400" height="384" viewBox="0 0 1280.000000 1228.000000" preserveAspectRatio="xMidYMid meet" class="rounded shadow" style="max-width: 100%; height: auto;">
+                                <g transform="translate(0.000000,1228.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                                    <path d="M4400 12247 c-58 -18 -122 -43 -143 -56 -35 -21 -37 -25 -37 -75 0 -56 19 -137 76 -323 69 -221 104 -345 110 -384 6 -35 4 -39 -20 -45 -40 -10 -155 12 -354 66 -97 26 -180 45 -183 41 -4 -3 -26 -64 -49 -136 -80 -248 -62 -267 360 -389 321 -92 423 -125 441 -144 54 -55 429 -1241 429 -1357 0 -20 -3 -20 -180 20 -364 83 -490 125 -544 185 -36 40 -42 65 -67 272 l-11 97 -46 7 c-52 8 -199 -2 -255 -17 -53 -14 -105 -65 -132 -129 l-23 -55 -85 0 c-71 0 -90 -4 -113 -21 -37 -27 -69 -92 -90 -181 -21 -87 -12 -130 41 -193 36 -43 40 -53 50 -131 9 -69 53 -150 135 -248 l74 -89 66 51 c116 92 225 172 253 186 37 19 55 15 472 -124 441 -147 662 -231 681 -260 8 -12 43 -104 79 -204 120 -338 185 -564 185 -647 l0 -41 -55 -6 c-109 -11 -139 -49 -201 -248 -25 -78 -43 -143 -42 -144 2 -1 91 -30 198 -65 107 -34 224 -76 259 -93 55 -27 66 -38 83 -77 57 -130 285 -870 290 -943 3 -32 3 -32 -49 -35 -90 -5 -558 83 -736 140 l-67 21 -36 73 c-20 40 -69 178 -109 306 l-73 233 -38 8 c-45 9 -174 -20 -244 -56 -34 -17 -51 -34 -69 -71 -24 -48 -24 -51 -12 -145 7 -53 15 -118 18 -145 l6 -49 -64 7 c-98 11 -874 181 -891 195 -12 10 -307 992 -368 1225 l-30 111 27 40 c14 22 74 101 133 175 155 197 154 195 140 230 -15 36 -111 128 -175 169 -61 38 -105 40 -181 6 -31 -14 -65 -25 -74 -25 -32 0 -66 55 -90 142 -39 149 -51 188 -58 188 -10 0 -225 -57 -303 -80 -93 -28 -98 -51 -48 -231 33 -117 35 -192 8 -211 -8 -5 -33 -6 -57 -4 -83 11 -139 -32 -166 -127 -26 -95 -58 -248 -52 -254 3 -3 81 -23 173 -44 283 -63 281 -62 323 -171 62 -164 219 -685 271 -901 17 -73 20 -100 11 -109 -24 -24 -315 27 -997 173 -285 62 -624 141 -683 160 -44 15 -84 85 -258 459 -135 288 -145 306 -180 324 -50 26 -112 14 -266 -51 l-117 -48 70 -160 c100 -227 136 -334 118 -346 -36 -23 -195 -2 -527 70 -147 31 -225 44 -228 37 -30 -83 -104 -350 -104 -378 0 -33 3 -37 32 -43 115 -25 712 -168 751 -181 l47 -16 -22 -39 c-22 -39 -144 -163 -293 -296 l-80 -72 150 -150 150 -150 190 175 c275 252 389 351 436 375 90 45 157 38 649 -67 516 -111 837 -187 854 -204 11 -11 -21 -66 -74 -129 -74 -87 -368 -334 -444 -373 -55 -28 -110 -20 -226 31 -177 79 -211 68 -290 -89 -65 -130 -65 -169 1 -244 l32 -37 -27 -88 c-14 -48 -26 -103 -26 -121 0 -53 36 -114 105 -179 72 -66 111 -81 167 -61 29 11 48 9 129 -10 70 -17 134 -24 251 -28 87 -2 163 -2 171 1 11 4 8 41 -16 201 -16 108 -26 207 -23 220 11 43 106 135 349 338 250 209 447 360 529 407 49 28 49 28 121 15 69 -13 432 -104 700 -175 l127 -34 0 -87 c0 -131 29 -193 157 -336 l38 -43 209 166 208 166 172 -31 c231 -43 449 -88 516 -107 61 -17 130 -50 130 -61 0 -19 -203 -257 -448 -524 -110 -120 -159 -168 -175 -168 -12 0 -168 27 -347 60 -179 33 -328 56 -331 52 -4 -4 -19 -62 -33 -130 -51 -238 -39 -264 139 -311 144 -38 165 -47 165 -69 0 -54 -408 -543 -550 -659 -53 -44 -55 -45 -110 -38 -182 21 -891 170 -1170 244 -221 60 -202 51 -237 109 -17 29 -50 100 -73 157 -77 192 -122 239 -221 233 -84 -6 -159 -46 -202 -111 -20 -28 -43 -80 -53 -114 -11 -42 -22 -63 -32 -63 -8 0 -87 11 -175 25 -88 14 -163 22 -168 18 -4 -4 -19 -66 -34 -137 -49 -232 -21 -281 205 -350 118 -37 114 -34 101 -95 -32 -149 -9 -186 216 -351 l41 -31 142 161 c77 88 146 160 152 160 16 0 640 -124 837 -166 187 -40 313 -78 330 -98 12 -15 0 -32 -128 -186 -90 -107 -380 -430 -689 -767 l-314 -343 -36 5 c-113 16 -709 56 -777 53 -134 -7 -167 -46 -169 -205 -1 -77 2 -96 19 -120 31 -42 134 -88 254 -113 235 -49 241 -51 241 -71 0 -59 -65 -142 -312 -402 -92 -96 -157 -172 -152 -177 102 -96 266 -210 303 -210 52 0 112 54 401 356 132 138 187 184 222 184 26 0 56 -67 104 -235 24 -82 54 -171 66 -197 l21 -48 56 0 c119 1 321 42 321 66 0 11 -29 145 -99 452 -38 165 -71 352 -71 401 0 30 13 52 73 128 161 201 683 775 799 878 67 59 113 83 135 69 24 -15 45 -86 103 -337 51 -222 68 -334 57 -379 -4 -14 -65 -73 -161 -153 l-155 -129 32 -40 c18 -23 66 -75 107 -117 89 -92 128 -108 212 -91 59 12 52 18 151 -102 47 -56 91 -71 175 -57 168 27 200 53 226 181 3 15 19 33 38 45 61 35 135 114 159 168 32 74 32 170 0 215 -32 46 -87 78 -171 101 -111 31 -131 47 -158 122 -54 150 -181 723 -212 961 l-12 87 33 47 c87 127 341 416 499 568 85 82 94 88 123 82 18 -3 39 -15 47 -27 50 -68 56 -72 111 -77 41 -3 336 32 345 42 1 0 -15 89 -37 196 -21 107 -42 234 -45 283 l-7 87 54 63 c79 92 203 229 393 435 208 224 227 233 283 126 37 -69 196 -541 238 -707 28 -107 28 -107 8 -130 -11 -12 -98 -110 -194 -217 -96 -107 -180 -203 -187 -212 -12 -15 0 -27 107 -107 175 -130 199 -133 325 -36 79 60 100 65 139 35 45 -36 141 -302 272 -754 l25 -89 -47 -56 c-80 -93 -605 -657 -834 -895 l-37 -39 -185 18 c-101 9 -219 16 -262 13 -74 -3 -78 -5 -110 -39 -45 -50 -66 -151 -49 -237 8 -41 66 -108 116 -133 72 -37 66 -62 -42 -189 -47 -55 -85 -110 -92 -133 l-11 -38 79 -80 c43 -45 98 -94 122 -111 62 -43 86 -34 196 71 163 156 175 160 249 81 74 -78 121 -87 229 -46 95 36 198 87 198 97 0 5 -22 76 -50 159 -27 82 -53 174 -56 204 -6 47 -3 59 17 88 60 85 282 331 459 511 250 252 250 252 331 66 43 -97 348 -1006 438 -1303 l51 -168 -40 -77 c-23 -42 -95 -152 -160 -246 -66 -93 -142 -205 -169 -249 l-50 -79 19 -37 c23 -44 128 -126 219 -169 l63 -30 30 22 c16 12 60 63 99 114 70 94 133 147 166 141 28 -5 75 -112 134 -305 l52 -173 33 0 c43 0 185 33 256 60 30 11 65 32 78 45 23 24 23 28 11 86 -6 33 -46 173 -87 312 -42 139 -78 276 -81 304 -5 48 -4 53 14 53 37 0 184 -31 433 -90 134 -33 245 -58 246 -57 4 5 84 373 84 387 0 11 -113 50 -437 149 -241 74 -466 143 -500 154 l-62 19 -150 451 c-203 612 -281 868 -281 921 0 17 6 18 58 13 81 -9 226 -48 452 -123 274 -91 352 -124 368 -156 7 -15 17 -77 23 -139 17 -181 36 -202 181 -207 55 -2 119 -1 143 2 57 9 101 53 120 121 23 77 36 85 134 83 78 -2 83 -1 111 28 37 38 100 192 100 245 0 37 -6 46 -60 98 -58 55 -60 59 -60 107 0 109 -78 258 -157 302 -36 20 -47 22 -80 13 -46 -13 -130 -62 -240 -142 -45 -32 -87 -59 -94 -59 -30 0 -1136 357 -1167 376 -24 16 -54 76 -104 209 -106 283 -215 692 -191 716 20 20 88 22 122 4 45 -23 84 -12 125 37 44 51 86 155 86 214 0 105 -45 139 -307 228 -253 86 -236 76 -271 159 -89 216 -242 698 -242 765 0 20 5 22 55 22 129 0 576 -65 750 -110 53 -13 86 -27 99 -42 31 -39 65 -114 131 -292 86 -235 101 -263 143 -277 48 -16 120 -5 253 36 62 20 114 37 116 39 2 1 -13 45 -32 97 -44 119 -60 202 -48 249 l10 35 79 -3 c151 -6 591 -82 768 -134 l79 -23 37 -95 c78 -202 306 -883 383 -1143 l35 -118 -51 -67 c-28 -37 -85 -110 -127 -162 -85 -108 -116 -154 -125 -190 -5 -22 4 -33 68 -87 176 -148 221 -162 300 -93 25 22 55 40 68 40 43 0 77 -47 109 -150 41 -129 47 -138 93 -151 76 -20 238 24 299 81 48 46 48 65 7 224 -16 65 -29 132 -27 150 3 31 4 31 73 39 83 9 112 27 142 88 30 60 84 299 69 304 -6 3 -96 22 -199 44 -246 53 -269 63 -302 136 -82 186 -334 992 -318 1018 9 14 193 2 338 -23 133 -23 327 -59 825 -156 546 -106 584 -114 591 -122 4 -4 48 -94 98 -200 132 -280 215 -441 251 -490 37 -52 88 -76 143 -69 30 4 173 66 285 123 1 1 -40 89 -93 195 -94 191 -132 289 -120 309 9 15 116 12 224 -5 52 -9 200 -38 329 -65 128 -28 237 -50 241 -50 8 0 62 355 61 406 l0 30 -265 48 c-307 55 -479 92 -517 112 -51 27 -54 50 -14 109 20 29 74 87 121 129 46 42 105 101 130 130 l46 54 -16 38 c-21 51 -214 274 -237 274 -5 0 -100 -87 -211 -193 -311 -296 -366 -345 -426 -375 -50 -24 -67 -27 -151 -26 -53 0 -145 11 -210 23 -188 36 -1130 248 -1138 255 -8 9 32 69 85 127 71 76 277 258 386 340 75 56 82 60 119 54 43 -8 135 -43 210 -81 95 -48 151 -22 212 100 39 78 54 151 42 199 -3 13 -22 45 -42 71 -40 53 -40 54 -3 173 20 62 21 77 11 112 -15 48 -89 142 -145 182 -51 37 -115 41 -135 8 -12 -18 -20 -21 -57 -16 -24 4 -59 17 -79 31 -45 30 -101 40 -174 31 -123 -15 -207 -68 -218 -136 -3 -20 3 -72 15 -122 38 -161 30 -185 -109 -330 -132 -139 -715 -657 -738 -657 -27 0 -541 95 -676 125 -168 37 -267 67 -273 81 -3 8 2 35 11 61 35 102 11 162 -110 280 -47 46 -88 83 -93 83 -18 0 -136 -84 -284 -203 l-157 -126 -253 44 c-138 24 -336 60 -439 79 -323 61 -350 69 -341 94 13 36 85 131 170 227 100 112 612 648 623 653 4 1 157 -29 341 -68 184 -39 341 -72 349 -73 11 -2 23 34 48 153 31 142 33 158 20 195 -17 52 -55 76 -162 104 -47 13 -100 33 -118 45 -51 34 -47 60 18 141 78 99 281 318 426 462 l123 123 305 -69 c559 -127 1028 -239 1083 -260 57 -22 89 -79 192 -348 32 -84 64 -153 71 -153 32 0 262 84 291 106 49 37 62 63 76 145 l12 74 37 3 c20 2 103 -11 184 -27 81 -17 150 -29 152 -27 2 3 24 93 48 202 29 131 40 200 34 204 -6 4 -70 19 -143 34 -146 30 -223 59 -232 86 -3 10 1 46 10 79 26 101 4 148 -128 279 l-94 94 -135 -139 c-75 -76 -148 -153 -163 -170 -15 -18 -33 -33 -41 -33 -50 0 -912 225 -1036 270 -110 40 -117 48 -81 91 100 124 535 592 857 923 l271 279 140 -6 c132 -6 256 -19 648 -68 93 -11 170 -19 171 -17 1 1 13 80 25 173 13 94 25 184 28 201 l5 30 -84 18 c-242 51 -458 108 -458 121 0 28 123 175 304 365 102 107 186 198 186 201 0 13 -191 165 -241 192 -97 52 -93 54 -327 -185 -237 -242 -291 -288 -334 -288 -67 0 -69 5 -133 250 -25 96 -48 183 -51 192 -9 31 -74 41 -151 23 -109 -25 -191 -57 -218 -85 l-26 -27 21 -114 c12 -63 37 -184 55 -269 38 -175 63 -322 66 -392 2 -41 -2 -53 -39 -100 -77 -100 -234 -273 -501 -552 -260 -272 -390 -397 -436 -418 -34 -15 -72 -2 -89 30 -22 42 -91 405 -121 633 -6 44 -5 47 42 90 26 25 98 80 160 122 62 43 115 82 118 87 7 11 -7 32 -91 145 -65 88 -107 112 -216 126 -46 6 -90 14 -98 18 -8 4 -28 31 -44 60 -44 82 -70 93 -196 88 -158 -7 -217 -41 -228 -132 -4 -43 -9 -49 -62 -85 -31 -21 -71 -55 -90 -76 -42 -49 -88 -146 -96 -206 -13 -92 17 -123 181 -189 142 -57 162 -72 180 -132 40 -134 152 -731 179 -950 l13 -108 -47 -62 c-117 -154 -462 -525 -554 -596 -67 -52 -89 -50 -137 10 -38 48 -97 78 -154 79 -47 0 -277 -29 -284 -36 -3 -2 7 -73 22 -157 32 -176 46 -285 47 -344 0 -35 -8 -53 -52 -110 -163 -215 -545 -607 -635 -651 -31 -15 -34 -15 -57 8 -14 12 -41 60 -60 107 -72 170 -176 526 -176 598 0 42 90 153 291 360 l164 167 -26 22 c-231 190 -268 214 -314 202 -14 -4 -60 -38 -103 -77 -89 -82 -166 -126 -187 -109 -51 43 -258 653 -281 829 l-6 46 93 104 c144 162 468 499 662 687 187 183 261 234 336 234 20 0 123 -18 230 -40 107 -22 196 -39 198 -37 1 2 16 67 33 145 24 114 28 150 21 183 -10 44 -53 96 -108 130 -17 11 -34 27 -37 36 -10 25 35 92 133 195 50 53 91 98 91 101 0 3 -68 66 -151 142 l-150 137 -122 -119 c-166 -162 -202 -174 -265 -87 -18 25 -45 50 -60 55 -55 22 -221 -18 -270 -64 -63 -58 -66 -119 -17 -277 19 -61 35 -123 35 -136 0 -70 -76 -164 -406 -505 -234 -241 -335 -338 -373 -358 -34 -18 -64 24 -122 173 -154 394 -460 1391 -445 1451 10 38 120 198 329 478 110 147 198 269 196 271 -14 10 -326 223 -335 229 -8 4 -53 -50 -120 -145 -118 -164 -210 -268 -237 -268 -25 0 -72 71 -106 159 -16 42 -62 178 -102 304 l-73 227 -41 0 c-22 -1 -87 -15 -145 -33z"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <p class="mt-3 text-muted small">The SVG is embedded directly in the HTML as an inline <code>&lt;svg&gt;</code> element. This makes it part of the DOM, allowing for full scalability, CSS styling, JavaScript manipulation, and interactivity. The SVG scales perfectly at any size.</p>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h2 class="mb-3">Font icons examples</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>Font glyph rendered visually	No image element in DOM, scalable vector icons</p>
+                        <div class="d-inline-block">
+                            <i class="fa-solid fa-house"></i>
+                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-envelope" style="color:orange"></i>
+                            <i class="fa-solid fa-phone"></i>
+                            <i class="fa-solid fa-gear" style="font-size:30px"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h2 class="mb-3">Broken image</h2>
+                    <div class="p-4 border rounded shadow">
+                        <div class="d-inline-block">
+                            <img src="/my_broken_image.jpg">
+                        </div>
+                    </div>
+                    <div class="p-4 border rounded shadow">
+                        <div class="d-inline-block">
+                            <img src="/static/images/download14.jpeg">
+                        </div>
+                    </div>
+                    <div class="p-4 border rounded shadow">
+                        <div class="d-inline-block">
+                            <img src="https://flightwebsite.xyz/static/images/download13.jpeg">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 American Airlines. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Canvas drawImage() example
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('imageCanvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                // Set crossOrigin to avoid CORS issues if needed
+                img.crossOrigin = 'anonymous';
+                
+                // Load the image
+                img.onload = function() {
+                    // Calculate dimensions to maintain aspect ratio and fit canvas
+                    const canvasWidth = canvas.width;
+                    const canvasHeight = canvas.height;
+                    const imgAspectRatio = img.width / img.height;
+                    const canvasAspectRatio = canvasWidth / canvasHeight;
+                    
+                    let drawWidth, drawHeight, drawX, drawY;
+                    
+                    if (imgAspectRatio > canvasAspectRatio) {
+                        // Image is wider - fit to width
+                        drawWidth = canvasWidth;
+                        drawHeight = canvasWidth / imgAspectRatio;
+                        drawX = 0;
+                        drawY = (canvasHeight - drawHeight) / 2;
+                    } else {
+                        // Image is taller - fit to height
+                        drawHeight = canvasHeight;
+                        drawWidth = canvasHeight * imgAspectRatio;
+                        drawX = (canvasWidth - drawWidth) / 2;
+                        drawY = 0;
+                    }
+                    
+                    // Draw the image on canvas
+                    ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+                };
+                
+                img.onerror = function() {
+                    // If image fails to load, draw an error message
+                    ctx.fillStyle = '#f8f9fa';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#6c757d';
+                    ctx.font = '20px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Image failed to load', canvas.width / 2, canvas.height / 2);
+                };
+                
+                // Set the image source
+                img.src = '/static/images/download9.jpeg';
+            }
+        });
+    </script>
+</body>
+</html>

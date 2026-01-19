@@ -515,5 +515,9 @@ def get_flight_suggestions():
 def booking(flight_id):
     return render_template('booking.html', flight_id=flight_id)
 
+@app.route('/images')
+def images():
+    return render_template('images.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5001)
