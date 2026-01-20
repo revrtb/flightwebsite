@@ -2,9 +2,213 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 import json
 from datetime import datetime, timedelta
 import random
+import sqlite3
+import os
 
 app = Flask(__name__)
 app.secret_key = 'airline_demo_secret_key'
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, 'tables.db')
+
+# Static company data used on /tables page (two different datasets)
+COMPANY_TABLE_ROWS = [
+    {
+        'company': 'AirBridge Analytics',
+        'city': 'New York',
+        'address': '475 Madison Ave, New York, NY 10022',
+        'phone': '+1 (212) 555-0199',
+        'employee_count': 320,
+    },
+    {
+        'company': 'Skyline Cargo Group',
+        'city': 'Atlanta',
+        'address': '180 Peachtree St NE, Atlanta, GA 30303',
+        'phone': '+1 (404) 555-0145',
+        'employee_count': 870,
+    },
+    {
+        'company': 'Pacific Horizon Airways',
+        'city': 'San Francisco',
+        'address': '1 Market St, San Francisco, CA 94105',
+        'phone': '+1 (415) 555-0112',
+        'employee_count': 540,
+    },
+    {
+        'company': 'Midwest Jet Services',
+        'city': 'Chicago',
+        'address': '200 S Wacker Dr, Chicago, IL 60606',
+        'phone': '+1 (312) 555-0160',
+        'employee_count': 265,
+    },
+    {
+        'company': 'Lone Star Aviation',
+        'city': 'Dallas',
+        'address': '901 Main St, Dallas, TX 75202',
+        'phone': '+1 (214) 555-0201',
+        'employee_count': 410,
+    },
+    {
+        'company': 'HarborLine Travel',
+        'city': 'Boston',
+        'address': '99 Summer St, Boston, MA 02110',
+        'phone': '+1 (617) 555-0183',
+        'employee_count': 150,
+    },
+]
+
+COMPANY_CUSTOM_TABLE_ROWS = [
+    {
+        'company': 'Nordic Air Logistics',
+        'city': 'Stockholm',
+        'address': 'Sveavägen 44, 111 34 Stockholm, Sweden',
+        'phone': '+46 8 555 01010',
+        'employee_count': 210,
+    },
+    {
+        'company': 'EuroSky Partners',
+        'city': 'Frankfurt',
+        'address': 'Theodor-Heuss-Allee 112, 60486 Frankfurt, Germany',
+        'phone': '+49 69 555 0190',
+        'employee_count': 630,
+    },
+    {
+        'company': 'SunRoute Holidays',
+        'city': 'Lisbon',
+        'address': 'Av. da Liberdade 200, 1250-147 Lisboa, Portugal',
+        'phone': '+351 21 555 0987',
+        'employee_count': 95,
+    },
+    {
+        'company': 'Alpine Wings Group',
+        'city': 'Zurich',
+        'address': 'Bahnhofstrasse 75, 8001 Zürich, Switzerland',
+        'phone': '+41 44 555 0770',
+        'employee_count': 305,
+    },
+    {
+        'company': 'Celtic Connect Airways',
+        'city': 'Dublin',
+        'address': '10 St. Stephen\'s Green, Dublin 2, Ireland',
+        'phone': '+353 1 555 0345',
+        'employee_count': 185,
+    },
+    {
+        'company': 'Mediterraneo Charter',
+        'city': 'Barcelona',
+        'address': 'Passeig de Gràcia 120, 08008 Barcelona, Spain',
+        'phone': '+34 93 555 0678',
+        'employee_count': 420,
+    },
+]
+
+
+def get_db_connection():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def init_company_tables():
+    """Create and seed SQLite tables for both table views."""
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Create two separate tables (one for each visual table on /tables)
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS company_table (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            company TEXT NOT NULL,
+            city TEXT NOT NULL,
+            address TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            employee_count INTEGER NOT NULL
+        )
+        """
+    )
+
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS company_custom_table (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            company TEXT NOT NULL,
+            city TEXT NOT NULL,
+            address TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            employee_count INTEGER NOT NULL
+        )
+        """
+    )
+
+    # Clear and seed first table with primary dataset
+    cur.execute("DELETE FROM company_table")
+    cur.executemany(
+        """
+        INSERT INTO company_table (company, city, address, phone, employee_count)
+        VALUES (:company, :city, :address, :phone, :employee_count)
+        """,
+        COMPANY_TABLE_ROWS,
+    )
+
+    # Clear and seed second table with a different dataset
+    cur.execute("DELETE FROM company_custom_table")
+    cur.executemany(
+        """
+        INSERT INTO company_custom_table (company, city, address, phone, employee_count)
+        VALUES (:company, :city, :address, :phone, :employee_count)
+        """,
+        COMPANY_CUSTOM_TABLE_ROWS,
+    )
+
+    conn.commit()
+    conn.close()
+
+# Initialize SQLite tables once at import time
+init_company_tables()
+
+# APIs for table data
+@app.route('/api/company-table')
+def api_company_table():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT company, city, address, phone, employee_count FROM company_table ORDER BY company ASC"
+    )
+    rows = [
+        {
+            'company': r['company'],
+            'city': r['city'],
+            'address': r['address'],
+            'phone': r['phone'],
+            'employeeCount': r['employee_count'],
+        }
+        for r in cur.fetchall()
+    ]
+    conn.close()
+    return jsonify(rows)
+
+
+@app.route('/api/company-custom-table')
+def api_company_custom_table():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT company, city, address, phone, employee_count FROM company_custom_table ORDER BY company ASC"
+    )
+    rows = [
+        {
+            'company': r['company'],
+            'city': r['city'],
+            'address': r['address'],
+            'phone': r['phone'],
+            'employeeCount': r['employee_count'],
+        }
+        for r in cur.fetchall()
+    ]
+    conn.close()
+    return jsonify(rows)
+
 
 # Mock user data
 MOCK_USERS = {

@@ -103,6 +103,43 @@
                 </div>
             </div>
         </div>
+
+        <!-- Custom "table" view (no table/th/tr/td tags) -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-grip me-2 text-primary"></i>
+                        Custom Table View
+                    </h5>
+                    <div class="text-muted small">Same data, rendered with <code>div</code>/<code>span</code>.</div>
+                </div>
+
+                <div class="custom-table" id="customCompanyTable" role="table" aria-label="Company directory (custom table view)">
+                    <div class="custom-table__row custom-table__header" role="row">
+                        <div class="custom-table__cell custom-table__cell--header sortable-div" role="columnheader" tabindex="0" data-key="company" data-type="text">
+                            Company <span class="sort-indicator" aria-hidden="true"></span>
+                        </div>
+                        <div class="custom-table__cell custom-table__cell--header sortable-div" role="columnheader" tabindex="0" data-key="city" data-type="text">
+                            City <span class="sort-indicator" aria-hidden="true"></span>
+                        </div>
+                        <div class="custom-table__cell custom-table__cell--header sortable-div" role="columnheader" tabindex="0" data-key="address" data-type="text">
+                            Address <span class="sort-indicator" aria-hidden="true"></span>
+                        </div>
+                        <div class="custom-table__cell custom-table__cell--header sortable-div" role="columnheader" tabindex="0" data-key="phone" data-type="text">
+                            Phone <span class="sort-indicator" aria-hidden="true"></span>
+                        </div>
+                        <div class="custom-table__cell custom-table__cell--header sortable-div custom-table__cell--right" role="columnheader" tabindex="0" data-key="employeeCount" data-type="number">
+                            Employee count <span class="sort-indicator" aria-hidden="true"></span>
+                        </div>
+                    </div>
+
+                    <div id="customCompanyTableBody" class="custom-table__body" role="rowgroup">
+                        <!-- rows injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->

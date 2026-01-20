@@ -1,49 +1,29 @@
-// Tables page: render static data + sortable columns
+// Tables page: render data from backend APIs + sortable columns
 
-const COMPANY_ROWS = [
-  {
-    company: "AeroNova Systems",
-    city: "Seattle",
-    address: "1208 Pine St, Seattle, WA 98101",
-    phone: "+1 (206) 555-0142",
-    employeeCount: 245,
-  },
-  {
-    company: "BlueSky Logistics",
-    city: "Dallas",
-    address: "4550 Elm St, Dallas, TX 75202",
-    phone: "+1 (214) 555-0198",
-    employeeCount: 610,
-  },
-  {
-    company: "CloudWing Aviation",
-    city: "Miami",
-    address: "88 Biscayne Blvd, Miami, FL 33132",
-    phone: "+1 (305) 555-0116",
-    employeeCount: 132,
-  },
-  {
-    company: "JetBridge Partners",
-    city: "Chicago",
-    address: "14 W Jackson Blvd, Chicago, IL 60604",
-    phone: "+1 (312) 555-0171",
-    employeeCount: 980,
-  },
-  {
-    company: "NorthStar Travel Group",
-    city: "New York",
-    address: "350 5th Ave, New York, NY 10118",
-    phone: "+1 (212) 555-0133",
-    employeeCount: 420,
-  },
-  {
-    company: "SkyRoute Consulting",
-    city: "Los Angeles",
-    address: "200 N Spring St, Los Angeles, CA 90012",
-    phone: "+1 (213) 555-0155",
-    employeeCount: 75,
-  },
-];
+let COMPANY_TABLE_ROWS = [];
+let COMPANY_CUSTOM_ROWS = [];
+
+async function loadCompanyTableData() {
+  const response = await fetch("/api/company-table");
+  if (!response.ok) {
+    throw new Error(`Failed to load company table data: ${response.status}`);
+  }
+  const data = await response.json();
+  COMPANY_TABLE_ROWS = Array.isArray(data) ? data : [];
+  return COMPANY_TABLE_ROWS;
+}
+
+async function loadCustomCompanyTableData() {
+  const response = await fetch("/api/company-custom-table");
+  if (!response.ok) {
+    throw new Error(
+      `Failed to load custom company table data: ${response.status}`
+    );
+  }
+  const data = await response.json();
+  COMPANY_CUSTOM_ROWS = Array.isArray(data) ? data : [];
+  return COMPANY_CUSTOM_ROWS;
+}
 
 function compareValues(a, b, type) {
   if (type === "number") {
@@ -64,11 +44,51 @@ function renderRows(rows) {
         <td>${escapeHtml(r.city)}</td>
         <td>${escapeHtml(r.address)}</td>
         <td>${escapeHtml(r.phone)}</td>
-        <td class="text-end">${Number(r.employeeCount).toLocaleString("en-US")}</td>
+        <td class="text-end">${Number(r.employeeCount).toLocaleString(
+          "en-US"
+        )}</td>
       </tr>
     `.trim()
     )
     .join("");
+}
+
+function renderCustomRows(rows) {
+  const body = document.getElementById("customCompanyTableBody");
+  if (!body) return;
+
+  body.innerHTML = rows
+    .map(
+      (r) => `
+      <div class="custom-table__row" role="row">
+        <div class="custom-table__cell" role="cell">${escapeHtml(
+          r.company
+        )}</div>
+        <div class="custom-table__cell" role="cell">${escapeHtml(
+          r.city
+        )}</div>
+        <div class="custom-table__cell" role="cell">${escapeHtml(
+          r.address
+        )}</div>
+        <div class="custom-table__cell" role="cell">${escapeHtml(
+          r.phone
+        )}</div>
+        <div class="custom-table__cell custom-table__cell--right" role="cell">${Number(
+          r.employeeCount
+        ).toLocaleString("en-US")}</div>
+      </div>
+    `.trim()
+    )
+    .join("");
+}
+
+function renderAll() {
+  if (COMPANY_TABLE_ROWS.length) {
+    renderRows(COMPANY_TABLE_ROWS);
+  }
+  if (COMPANY_CUSTOM_ROWS.length) {
+    renderCustomRows(COMPANY_CUSTOM_ROWS);
+  }
 }
 
 function escapeHtml(str) {
@@ -80,7 +100,7 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
-function setIndicators(activeKey, direction) {
+function setIndicatorsForTable(activeKey, direction) {
   document.querySelectorAll("th.sortable").forEach((th) => {
     const indicator = th.querySelector(".sort-indicator");
     if (!indicator) return;
@@ -89,44 +109,97 @@ function setIndicators(activeKey, direction) {
       th.setAttribute("aria-sort", "none");
       return;
     }
-    th.setAttribute("aria-sort", direction === "asc" ? "ascending" : "descending");
+    th.setAttribute(
+      "aria-sort",
+      direction === "asc" ? "ascending" : "descending"
+    );
+    indicator.textContent = direction === "asc" ? "▲" : "▼";
+  });
+
+}
+
+function setIndicatorsForCustom(activeKey, direction) {
+  document.querySelectorAll(".sortable-div").forEach((el) => {
+    const indicator = el.querySelector(".sort-indicator");
+    if (!indicator) return;
+    if (el.dataset.key !== activeKey) {
+      indicator.textContent = "";
+      el.setAttribute("aria-sort", "none");
+      return;
+    }
+    el.setAttribute(
+      "aria-sort",
+      direction === "asc" ? "ascending" : "descending"
+    );
     indicator.textContent = direction === "asc" ? "▲" : "▼";
   });
 }
 
-function sortAndRender(state, key, type) {
+function sortAndRenderTable(state, key, type) {
   const nextDirection =
     state.key === key ? (state.direction === "asc" ? "desc" : "asc") : "asc";
 
-  const sorted = [...COMPANY_ROWS].sort((ra, rb) => {
-    const cmp = compareValues(ra[key], rb[key], type);
-    return nextDirection === "asc" ? cmp : -cmp;
-  });
+  if (COMPANY_TABLE_ROWS.length) {
+    COMPANY_TABLE_ROWS = [...COMPANY_TABLE_ROWS].sort((ra, rb) => {
+      const cmp = compareValues(ra[key], rb[key], type);
+      return nextDirection === "asc" ? cmp : -cmp;
+    });
+  }
 
   state.key = key;
   state.direction = nextDirection;
 
-  setIndicators(key, nextDirection);
-  renderRows(sorted);
+  setIndicatorsForTable(key, nextDirection);
+  renderRows(COMPANY_TABLE_ROWS);
+}
+
+function sortAndRenderCustom(state, key, type) {
+  const nextDirection =
+    state.key === key ? (state.direction === "asc" ? "desc" : "asc") : "asc";
+
+  if (COMPANY_CUSTOM_ROWS.length) {
+    COMPANY_CUSTOM_ROWS = [...COMPANY_CUSTOM_ROWS].sort((ra, rb) => {
+      const cmp = compareValues(ra[key], rb[key], type);
+      return nextDirection === "asc" ? cmp : -cmp;
+    });
+  }
+
+  state.key = key;
+  state.direction = nextDirection;
+
+  setIndicatorsForCustom(key, nextDirection);
+  renderCustomRows(COMPANY_CUSTOM_ROWS);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const state = { key: "company", direction: "asc" };
+  const tableState = { key: "company", direction: "asc" };
+  const customState = { key: "company", direction: "asc" };
 
-  // Default: sorted by Company name (ascending)
-  const defaultSorted = [...COMPANY_ROWS].sort((a, b) =>
-    compareValues(a.company, b.company, "text")
-  );
-  setIndicators("company", "asc");
-  renderRows(defaultSorted);
-
-  // Click-to-sort headers
+  // Click-to-sort headers (HTML table)
   document.querySelectorAll("th.sortable").forEach((th) => {
     th.addEventListener("click", () => {
       const key = th.dataset.key;
       const type = th.dataset.type || "text";
       if (!key) return;
-      sortAndRender(state, key, type);
+      sortAndRenderTable(tableState, key, type);
+    });
+  });
+
+  // Click-to-sort custom headers (and keyboard Enter/Space)
+  document.querySelectorAll(".sortable-div").forEach((el) => {
+    const activate = () => {
+      const key = el.dataset.key;
+      const type = el.dataset.type || "text";
+      if (!key) return;
+      sortAndRenderCustom(customState, key, type);
+    };
+
+    el.addEventListener("click", activate);
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        activate();
+      }
     });
   });
 
@@ -134,14 +207,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = document.getElementById("resetSortBtn");
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
-      state.key = "company";
-      state.direction = "asc";
-      const sorted = [...COMPANY_ROWS].sort((a, b) =>
-        compareValues(a.company, b.company, "text")
-      );
-      setIndicators("company", "asc");
-      renderRows(sorted);
+      // Reset each table independently to Company ascending
+      tableState.key = "";
+      tableState.direction = "desc";
+      customState.key = "";
+      customState.direction = "desc";
+      sortAndRenderTable(tableState, "company", "text");
+      sortAndRenderCustom(customState, "company", "text");
     });
   }
+
+  // Initial load: fetch data for both tables separately from backend APIs
+  Promise.all([loadCompanyTableData(), loadCustomCompanyTableData()])
+    .then(() => {
+      if (!COMPANY_TABLE_ROWS.length && !COMPANY_CUSTOM_ROWS.length) return;
+      // Default sort by company ascending
+      tableState.key = "";
+      tableState.direction = "desc";
+      customState.key = "";
+      customState.direction = "desc";
+      sortAndRenderTable(tableState, "company", "text");
+      sortAndRenderCustom(customState, "company", "text");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
