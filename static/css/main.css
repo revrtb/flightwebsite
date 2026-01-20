@@ -34,6 +34,20 @@ body {
     color: var(--accent-color) !important;
 }
 
+/* Sortable tables */
+th.sortable {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.sort-indicator {
+    display: inline-block;
+    margin-left: 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.85em;
+}
+
 /* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);

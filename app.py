@@ -519,5 +519,9 @@ def booking(flight_id):
 def images():
     return render_template('images.html')
 
+@app.route('/tables')
+def tables():
+    return render_template('tables.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5001)
