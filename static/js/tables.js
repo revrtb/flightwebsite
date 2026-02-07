@@ -44,9 +44,10 @@ function renderRows(rows) {
         const rowId = `table-row-${index}`;
         if (DELETED_ROWS_TABLE.has(rowId)) return '';
         const safeRowId = rowId.replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        const safeData = JSON.stringify(r).replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         return `
-      <tr data-row-id="${safeRowId}">
-        <td class="text-center">
+      <tr data-row-id="${safeRowId}" data-row-data='${safeData}' class="table-row-clickable" style="cursor: pointer;">
+        <td class="text-center" onclick="event.stopPropagation();">
           <input type="checkbox" class="form-check-input row-checkbox" data-row-id="${safeRowId}">
         </td>
         <td>${escapeHtml(r.company)}</td>
@@ -54,11 +55,11 @@ function renderRows(rows) {
         <td>${escapeHtml(r.address)}</td>
         <td>${escapeHtml(r.phone)}</td>
         <td class="text-end">${Number(r.employeeCount).toLocaleString("en-US")}</td>
-        <td class="text-center">
+        <td class="text-center" onclick="event.stopPropagation();">
           <button class="btn btn-sm btn-danger" onclick="deleteRow('${safeRowId}', 'table')" title="Delete row">
             <i class="fas fa-trash"></i>
           </button>
-          <select class="form-select form-select-sm d-inline-block ms-2" style="width: auto;" onchange="handleActionSelect(this.value, '${safeRowId}')">
+          <select class="form-select form-select-sm d-inline-block ms-2" style="width: auto;" onchange="handleActionSelect(this.value, '${safeRowId}'); event.stopPropagation();">
             <option value="">Action</option>
             <option value="edit">Edit</option>
             <option value="details">Details</option>
@@ -70,6 +71,19 @@ function renderRows(rows) {
     )
     .filter(row => row !== '')
     .join("");
+  
+  // Add click event listeners to rows
+  tbody.querySelectorAll('tr.table-row-clickable').forEach(row => {
+    row.addEventListener('click', function(e) {
+      // Don't trigger if clicking on interactive elements
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT' || 
+          e.target.closest('button') || e.target.closest('select') || e.target.closest('input')) {
+        return;
+      }
+      const rowData = JSON.parse(this.dataset.rowData);
+      showRowDetails(rowData);
+    });
+  });
   
   // Update select all checkbox state
   updateSelectAllState('table');
@@ -85,9 +99,10 @@ function renderCustomRows(rows) {
         const rowId = `custom-row-${index}`;
         if (DELETED_ROWS_CUSTOM.has(rowId)) return '';
         const safeRowId = rowId.replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        const safeData = JSON.stringify(r).replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         return `
-      <div class="custom-table__row" role="row" data-row-id="${safeRowId}">
-        <div class="custom-table__cell text-center" role="cell">
+      <div class="custom-table__row custom-row-clickable" role="row" data-row-id="${safeRowId}" data-row-data='${safeData}' style="cursor: pointer;">
+        <div class="custom-table__cell text-center" role="cell" onclick="event.stopPropagation();">
           <input type="checkbox" class="form-check-input row-checkbox-custom" data-row-id="${safeRowId}">
         </div>
         <div class="custom-table__cell" role="cell">${escapeHtml(r.company)}</div>
@@ -95,11 +110,11 @@ function renderCustomRows(rows) {
         <div class="custom-table__cell" role="cell">${escapeHtml(r.address)}</div>
         <div class="custom-table__cell" role="cell">${escapeHtml(r.phone)}</div>
         <div class="custom-table__cell custom-table__cell--right" role="cell">${Number(r.employeeCount).toLocaleString("en-US")}</div>
-        <div class="custom-table__cell text-center" role="cell">
+        <div class="custom-table__cell text-center" role="cell" onclick="event.stopPropagation();">
           <button class="btn btn-sm btn-danger" onclick="deleteRow('${safeRowId}', 'custom')" title="Delete row">
             <i class="fas fa-trash"></i>
           </button>
-          <select class="form-select form-select-sm d-inline-block ms-2" style="width: auto;" onchange="handleActionSelect(this.value, '${safeRowId}')">
+          <select class="form-select form-select-sm d-inline-block ms-2" style="width: auto;" onchange="handleActionSelect(this.value, '${safeRowId}'); event.stopPropagation();">
             <option value="">Action</option>
             <option value="edit">Edit</option>
             <option value="details">Details</option>
@@ -111,6 +126,19 @@ function renderCustomRows(rows) {
     )
     .filter(row => row !== '')
     .join("");
+  
+  // Add click event listeners to rows
+  body.querySelectorAll('.custom-row-clickable').forEach(row => {
+    row.addEventListener('click', function(e) {
+      // Don't trigger if clicking on interactive elements
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT' || 
+          e.target.closest('button') || e.target.closest('select') || e.target.closest('input')) {
+        return;
+      }
+      const rowData = JSON.parse(this.dataset.rowData);
+      showRowDetails(rowData);
+    });
+  });
   
   // Update select all checkbox state
   updateSelectAllState('custom');
@@ -203,6 +231,40 @@ function sortAndRenderCustom(state, key, type) {
 
   setIndicatorsForCustom(key, nextDirection);
   renderCustomRows(COMPANY_CUSTOM_ROWS);
+}
+
+// Show row details in modal
+function showRowDetails(rowData) {
+  const modal = new bootstrap.Modal(document.getElementById('rowDetailsModal'));
+  const content = document.getElementById('rowDetailsContent');
+  
+  const detailsHtml = `
+    <div class="row-details">
+      <div class="mb-3">
+        <strong><i class="fas fa-building me-2 text-primary"></i>Company:</strong>
+        <p class="mb-0 mt-1">${escapeHtml(rowData.company)}</p>
+      </div>
+      <div class="mb-3">
+        <strong><i class="fas fa-map-marker-alt me-2 text-primary"></i>City:</strong>
+        <p class="mb-0 mt-1">${escapeHtml(rowData.city)}</p>
+      </div>
+      <div class="mb-3">
+        <strong><i class="fas fa-map-pin me-2 text-primary"></i>Address:</strong>
+        <p class="mb-0 mt-1">${escapeHtml(rowData.address)}</p>
+      </div>
+      <div class="mb-3">
+        <strong><i class="fas fa-phone me-2 text-primary"></i>Phone:</strong>
+        <p class="mb-0 mt-1">${escapeHtml(rowData.phone)}</p>
+      </div>
+      <div class="mb-3">
+        <strong><i class="fas fa-users me-2 text-primary"></i>Employee Count:</strong>
+        <p class="mb-0 mt-1">${Number(rowData.employeeCount || rowData.employee_count).toLocaleString("en-US")}</p>
+      </div>
+    </div>
+  `;
+  
+  content.innerHTML = detailsHtml;
+  modal.show();
 }
 
 // Handle action select dropdown
