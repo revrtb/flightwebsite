@@ -82,6 +82,31 @@
                     </h5>
                     <div class="text-muted small">Same data, rendered with <code>Table</code>/<code>th/tr/td</code>.</div>
                 </div>
+                
+                <!-- Filter Row -->
+                <div class="row g-2 mb-3 p-2 bg-light rounded">
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" id="filterCompany" placeholder="Filter Company..." oninput="applyFilters('table')">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" id="filterCity" placeholder="Filter City..." oninput="applyFilters('table')">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" id="filterAddress" placeholder="Filter Address..." oninput="applyFilters('table')">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" id="filterPhone" placeholder="Filter Phone..." oninput="applyFilters('table')">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" id="filterEmployeeCount" placeholder="Filter Count..." oninput="applyFilters('table')">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-sm btn-outline-secondary w-100" onclick="clearFilters('table')">
+                            <i class="fas fa-times me-1"></i>Clear
+                        </button>
+                    </div>
+                </div>
+                
                 <div class="table-responsive">
                     <table class="table table-striped table-hover align-middle mb-0" id="companyTable">
                         <thead class="table-light">
@@ -124,6 +149,30 @@
                         Custom Table View
                     </h5>
                     <div class="text-muted small">Same data, rendered with <code>div</code>/<code>span</code>.</div>
+                </div>
+                
+                <!-- Filter Row -->
+                <div class="row g-2 mb-3 p-2 bg-light rounded">
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" id="filterCompanyCustom" placeholder="Filter Company..." oninput="applyFilters('custom')">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" id="filterCityCustom" placeholder="Filter City..." oninput="applyFilters('custom')">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" id="filterAddressCustom" placeholder="Filter Address..." oninput="applyFilters('custom')">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" id="filterPhoneCustom" placeholder="Filter Phone..." oninput="applyFilters('custom')">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control form-control-sm" id="filterEmployeeCountCustom" placeholder="Filter Count..." oninput="applyFilters('custom')">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-sm btn-outline-secondary w-100" onclick="clearFilters('custom')">
+                            <i class="fas fa-times me-1"></i>Clear
+                        </button>
+                    </div>
                 </div>
 
                 <div class="custom-table" id="customCompanyTable" role="table" aria-label="Company directory (custom table view)">

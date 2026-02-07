@@ -233,6 +233,81 @@ function sortAndRenderCustom(state, key, type) {
   renderCustomRows(COMPANY_CUSTOM_ROWS);
 }
 
+// Apply filters to table rows
+function applyFilters(tableType) {
+  const prefix = tableType === 'table' ? '' : 'Custom';
+  const filterCompany = document.getElementById(`filterCompany${prefix}`).value.toLowerCase();
+  const filterCity = document.getElementById(`filterCity${prefix}`).value.toLowerCase();
+  const filterAddress = document.getElementById(`filterAddress${prefix}`).value.toLowerCase();
+  const filterPhone = document.getElementById(`filterPhone${prefix}`).value.toLowerCase();
+  const filterEmployeeCount = document.getElementById(`filterEmployeeCount${prefix}`).value.toLowerCase();
+  
+  if (tableType === 'table') {
+    const rows = document.querySelectorAll('#companyTableBody tr');
+    rows.forEach(row => {
+      if (row.style.display === 'none' && DELETED_ROWS_TABLE.has(row.dataset.rowId)) {
+        return; // Skip deleted rows
+      }
+      
+      const cells = row.querySelectorAll('td');
+      if (cells.length < 6) return;
+      
+      const company = (cells[1]?.textContent || '').toLowerCase();
+      const city = (cells[2]?.textContent || '').toLowerCase();
+      const address = (cells[3]?.textContent || '').toLowerCase();
+      const phone = (cells[4]?.textContent || '').toLowerCase();
+      const employeeCount = (cells[5]?.textContent || '').toLowerCase();
+      
+      const matches =
+        (!filterCompany || company.includes(filterCompany)) &&
+        (!filterCity || city.includes(filterCity)) &&
+        (!filterAddress || address.includes(filterAddress)) &&
+        (!filterPhone || phone.includes(filterPhone)) &&
+        (!filterEmployeeCount || employeeCount.includes(filterEmployeeCount));
+      
+      row.style.display = matches ? '' : 'none';
+    });
+    updateSelectAllState('table');
+  } else {
+    const rows = document.querySelectorAll('#customCompanyTableBody .custom-table__row');
+    rows.forEach(row => {
+      if (row.style.display === 'none' && DELETED_ROWS_CUSTOM.has(row.dataset.rowId)) {
+        return; // Skip deleted rows
+      }
+      
+      const cells = row.querySelectorAll('.custom-table__cell');
+      if (cells.length < 7) return;
+      
+      const company = (cells[1]?.textContent || '').toLowerCase();
+      const city = (cells[2]?.textContent || '').toLowerCase();
+      const address = (cells[3]?.textContent || '').toLowerCase();
+      const phone = (cells[4]?.textContent || '').toLowerCase();
+      const employeeCount = (cells[5]?.textContent || '').toLowerCase();
+      
+      const matches =
+        (!filterCompany || company.includes(filterCompany)) &&
+        (!filterCity || city.includes(filterCity)) &&
+        (!filterAddress || address.includes(filterAddress)) &&
+        (!filterPhone || phone.includes(filterPhone)) &&
+        (!filterEmployeeCount || employeeCount.includes(filterEmployeeCount));
+      
+      row.style.display = matches ? '' : 'none';
+    });
+    updateSelectAllState('custom');
+  }
+}
+
+// Clear all filters
+function clearFilters(tableType) {
+  const prefix = tableType === 'table' ? '' : 'Custom';
+  document.getElementById(`filterCompany${prefix}`).value = '';
+  document.getElementById(`filterCity${prefix}`).value = '';
+  document.getElementById(`filterAddress${prefix}`).value = '';
+  document.getElementById(`filterPhone${prefix}`).value = '';
+  document.getElementById(`filterEmployeeCount${prefix}`).value = '';
+  applyFilters(tableType);
+}
+
 // Show row details in modal
 function showRowDetails(rowData) {
   const modal = new bootstrap.Modal(document.getElementById('rowDetailsModal'));
