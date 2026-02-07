@@ -40,7 +40,7 @@ COMPANY_TABLE_ROWS = [
         'company': 'Midwest Jet Services',
         'city': 'Chicago',
         'address': '200 S Wacker Dr, Chicago, IL 60606',
-        'phone': '+1 (312) 555-0160',
+        'phone': '',
         'employee_count': 265,
     },
     {
@@ -98,7 +98,7 @@ COMPANY_CUSTOM_TABLE_ROWS = [
     {
         'company': 'Mediterraneo Charter',
         'city': 'Barcelona',
-        'address': 'Passeig de Gràcia 120, 08008 Barcelona, Spain',
+        'address': '',
         'phone': '+34 93 555 0678',
         'employee_count': 420,
     },
