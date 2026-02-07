@@ -58,7 +58,7 @@ th.sortable {
 
 .custom-table__row {
     display: grid;
-    grid-template-columns: 1.4fr 1fr 2.2fr 1.2fr 0.9fr;
+    grid-template-columns: 80px 1.5fr 0.9fr 2fr 1.1fr 1fr 200px;
     gap: 0;
     border-top: 1px solid #f0f1f2;
 }
@@ -97,19 +97,20 @@ th.sortable {
 
 @media (max-width: 992px) {
     .custom-table__row {
-        grid-template-columns: 1.3fr 1fr 1.7fr 1.2fr 0.9fr;
+        grid-template-columns: 80px 1.3fr 0.8fr 1.7fr 1fr 0.9fr 180px;
     }
 }
 
 @media (max-width: 768px) {
     .custom-table__row {
-        grid-template-columns: 1.4fr 1fr;
+        grid-template-columns: 60px 1.4fr 1fr;
         grid-auto-rows: auto;
     }
 
-    .custom-table__cell:nth-child(3),
     .custom-table__cell:nth-child(4),
-    .custom-table__cell:nth-child(5) {
+    .custom-table__cell:nth-child(5),
+    .custom-table__cell:nth-child(6),
+    .custom-table__cell:nth-child(7) {
         grid-column: 1 / -1;
         white-space: normal;
     }

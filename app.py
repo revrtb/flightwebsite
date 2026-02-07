@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import json
 from datetime import datetime, timedelta

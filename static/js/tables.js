@@ -2,6 +2,8 @@
 
 let COMPANY_TABLE_ROWS = [];
 let COMPANY_CUSTOM_ROWS = [];
+let DELETED_ROWS_TABLE = new Set();
+let DELETED_ROWS_CUSTOM = new Set();
 
 async function loadCompanyTableData() {
   const response = await fetch("/api/company-table");
@@ -38,19 +40,39 @@ function renderRows(rows) {
 
   tbody.innerHTML = rows
     .map(
-      (r) => `
-      <tr>
+      (r, index) => {
+        const rowId = `table-row-${index}`;
+        if (DELETED_ROWS_TABLE.has(rowId)) return '';
+        const safeRowId = rowId.replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        return `
+      <tr data-row-id="${safeRowId}">
+        <td class="text-center">
+          <input type="checkbox" class="form-check-input row-checkbox" data-row-id="${safeRowId}">
+        </td>
         <td>${escapeHtml(r.company)}</td>
         <td>${escapeHtml(r.city)}</td>
         <td>${escapeHtml(r.address)}</td>
         <td>${escapeHtml(r.phone)}</td>
-        <td class="text-end">${Number(r.employeeCount).toLocaleString(
-          "en-US"
-        )}</td>
+        <td class="text-end">${Number(r.employeeCount).toLocaleString("en-US")}</td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-danger" onclick="deleteRow('${safeRowId}', 'table')" title="Delete row">
+            <i class="fas fa-trash"></i>
+          </button>
+          <select class="form-select form-select-sm d-inline-block ms-2" style="width: auto;" onchange="handleActionSelect(this.value, '${safeRowId}')">
+            <option value="">Action</option>
+            <option value="edit">Edit</option>
+            <option value="details">Details</option>
+          </select>
+        </td>
       </tr>
-    `.trim()
+    `.trim();
+      }
     )
+    .filter(row => row !== '')
     .join("");
+  
+  // Update select all checkbox state
+  updateSelectAllState('table');
 }
 
 function renderCustomRows(rows) {
@@ -59,27 +81,39 @@ function renderCustomRows(rows) {
 
   body.innerHTML = rows
     .map(
-      (r) => `
-      <div class="custom-table__row" role="row">
-        <div class="custom-table__cell" role="cell">${escapeHtml(
-          r.company
-        )}</div>
-        <div class="custom-table__cell" role="cell">${escapeHtml(
-          r.city
-        )}</div>
-        <div class="custom-table__cell" role="cell">${escapeHtml(
-          r.address
-        )}</div>
-        <div class="custom-table__cell" role="cell">${escapeHtml(
-          r.phone
-        )}</div>
-        <div class="custom-table__cell custom-table__cell--right" role="cell">${Number(
-          r.employeeCount
-        ).toLocaleString("en-US")}</div>
+      (r, index) => {
+        const rowId = `custom-row-${index}`;
+        if (DELETED_ROWS_CUSTOM.has(rowId)) return '';
+        const safeRowId = rowId.replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        return `
+      <div class="custom-table__row" role="row" data-row-id="${safeRowId}">
+        <div class="custom-table__cell text-center" role="cell">
+          <input type="checkbox" class="form-check-input row-checkbox-custom" data-row-id="${safeRowId}">
+        </div>
+        <div class="custom-table__cell" role="cell">${escapeHtml(r.company)}</div>
+        <div class="custom-table__cell" role="cell">${escapeHtml(r.city)}</div>
+        <div class="custom-table__cell" role="cell">${escapeHtml(r.address)}</div>
+        <div class="custom-table__cell" role="cell">${escapeHtml(r.phone)}</div>
+        <div class="custom-table__cell custom-table__cell--right" role="cell">${Number(r.employeeCount).toLocaleString("en-US")}</div>
+        <div class="custom-table__cell text-center" role="cell">
+          <button class="btn btn-sm btn-danger" onclick="deleteRow('${safeRowId}', 'custom')" title="Delete row">
+            <i class="fas fa-trash"></i>
+          </button>
+          <select class="form-select form-select-sm d-inline-block ms-2" style="width: auto;" onchange="handleActionSelect(this.value, '${safeRowId}')">
+            <option value="">Action</option>
+            <option value="edit">Edit</option>
+            <option value="details">Details</option>
+          </select>
+        </div>
       </div>
-    `.trim()
+    `.trim();
+      }
     )
+    .filter(row => row !== '')
     .join("");
+  
+  // Update select all checkbox state
+  updateSelectAllState('custom');
 }
 
 function renderAll() {
@@ -171,6 +205,72 @@ function sortAndRenderCustom(state, key, type) {
   renderCustomRows(COMPANY_CUSTOM_ROWS);
 }
 
+// Handle action select dropdown
+function handleActionSelect(action, rowId) {
+  if (!action) return;
+  console.log(`Action "${action}" selected for row ${rowId}`);
+  // You can add custom logic here for edit/details actions
+  alert(`Action: ${action} for row ${rowId}`);
+}
+
+// Delete row function
+function deleteRow(rowId, tableType) {
+  if (tableType === 'table') {
+    DELETED_ROWS_TABLE.add(rowId);
+    const row = document.querySelector(`tr[data-row-id="${rowId}"]`);
+    if (row) {
+      row.style.display = 'none';
+    }
+    updateSelectAllState('table');
+  } else if (tableType === 'custom') {
+    DELETED_ROWS_CUSTOM.add(rowId);
+    const row = document.querySelector(`div[data-row-id="${rowId}"]`);
+    if (row) {
+      row.style.display = 'none';
+    }
+    updateSelectAllState('custom');
+  }
+}
+
+// Update select all checkbox state
+function updateSelectAllState(tableType) {
+  const prefix = tableType === 'table' ? 'table-row' : 'custom-row';
+  const checkboxClass = tableType === 'table' ? '.row-checkbox' : '.row-checkbox-custom';
+  const selectAllId = tableType === 'table' ? 'selectAllTable' : 'selectAllCustom';
+  
+  const visibleCheckboxes = Array.from(document.querySelectorAll(checkboxClass))
+    .filter(cb => {
+      const rowId = cb.dataset.rowId;
+      const row = document.querySelector(`[data-row-id="${rowId}"]`);
+      return row && row.style.display !== 'none' && rowId.startsWith(prefix);
+    });
+  
+  if (visibleCheckboxes.length === 0) {
+    const selectAll = document.getElementById(selectAllId);
+    if (selectAll) {
+      selectAll.checked = false;
+      selectAll.indeterminate = false;
+    }
+    return;
+  }
+  
+  const checkedCount = visibleCheckboxes.filter(cb => cb.checked).length;
+  const selectAll = document.getElementById(selectAllId);
+  
+  if (selectAll) {
+    if (checkedCount === 0) {
+      selectAll.checked = false;
+      selectAll.indeterminate = false;
+    } else if (checkedCount === visibleCheckboxes.length) {
+      selectAll.checked = true;
+      selectAll.indeterminate = false;
+    } else {
+      selectAll.checked = false;
+      selectAll.indeterminate = true;
+    }
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const tableState = { key: "company", direction: "asc" };
   const customState = { key: "company", direction: "asc" };
@@ -203,6 +303,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Select all checkbox handlers
+  const selectAllTable = document.getElementById("selectAllTable");
+  if (selectAllTable) {
+    selectAllTable.addEventListener("change", function() {
+      const isChecked = this.checked;
+      document.querySelectorAll('.row-checkbox').forEach(cb => {
+        const rowId = cb.dataset.rowId;
+        const row = document.querySelector(`tr[data-row-id="${rowId}"]`);
+        if (row && row.style.display !== 'none') {
+          cb.checked = isChecked;
+        }
+      });
+    });
+  }
+
+  const selectAllCustom = document.getElementById("selectAllCustom");
+  if (selectAllCustom) {
+    selectAllCustom.addEventListener("change", function() {
+      const isChecked = this.checked;
+      document.querySelectorAll('.row-checkbox-custom').forEach(cb => {
+        const rowId = cb.dataset.rowId;
+        const row = document.querySelector(`div[data-row-id="${rowId}"]`);
+        if (row && row.style.display !== 'none') {
+          cb.checked = isChecked;
+        }
+      });
+    });
+  }
+
+  // Individual row checkbox handlers
+  document.addEventListener('change', function(e) {
+    if (e.target.classList.contains('row-checkbox')) {
+      updateSelectAllState('table');
+    } else if (e.target.classList.contains('row-checkbox-custom')) {
+      updateSelectAllState('custom');
+    }
+  });
+
   // Reset sort button
   const resetBtn = document.getElementById("resetSortBtn");
   if (resetBtn) {
@@ -212,6 +350,9 @@ document.addEventListener("DOMContentLoaded", () => {
       tableState.direction = "desc";
       customState.key = "";
       customState.direction = "desc";
+      // Clear deleted rows on reset
+      DELETED_ROWS_TABLE.clear();
+      DELETED_ROWS_CUSTOM.clear();
       sortAndRenderTable(tableState, "company", "text");
       sortAndRenderCustom(customState, "company", "text");
     });

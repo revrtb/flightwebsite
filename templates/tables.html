@@ -86,6 +86,9 @@
                     <table class="table table-striped table-hover align-middle mb-0" id="companyTable">
                         <thead class="table-light">
                             <tr>
+                                <th scope="col" class="text-center" style="width: 120px;">
+                                    <input type="checkbox" id="selectAllTable" class="form-check-input" title="Select all">
+                                </th>
                                 <th scope="col" class="sortable" data-key="company" data-type="text">
                                     Company <span class="sort-indicator" aria-hidden="true"></span>
                                 </th>
@@ -101,6 +104,7 @@
                                 <th scope="col" class="sortable text-end" data-key="employeeCount" data-type="number">
                                     Employee count <span class="sort-indicator" aria-hidden="true"></span>
                                 </th>
+                                <th scope="col" class="text-center" style="width: 200px;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="companyTableBody">
@@ -124,6 +128,9 @@
 
                 <div class="custom-table" id="customCompanyTable" role="table" aria-label="Company directory (custom table view)">
                     <div class="custom-table__row custom-table__header" role="row">
+                        <div class="custom-table__cell custom-table__cell--header text-center" role="columnheader" style="width: 120px;">
+                            <input type="checkbox" id="selectAllCustom" class="form-check-input" title="Select all">
+                        </div>
                         <div class="custom-table__cell custom-table__cell--header sortable-div" role="columnheader" tabindex="0" data-key="company" data-type="text">
                             Company <span class="sort-indicator" aria-hidden="true"></span>
                         </div>
@@ -139,6 +146,7 @@
                         <div class="custom-table__cell custom-table__cell--header sortable-div custom-table__cell--right" role="columnheader" tabindex="0" data-key="employeeCount" data-type="number">
                             Employee count <span class="sort-indicator" aria-hidden="true"></span>
                         </div>
+                        <div class="custom-table__cell custom-table__cell--header text-center" role="columnheader" style="width: 200px;">Action</div>
                     </div>
 
                     <div id="customCompanyTableBody" class="custom-table__body" role="rowgroup">
