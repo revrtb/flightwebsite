@@ -54,7 +54,7 @@ function renderRows(rows) {
         <td>${escapeHtml(r.city)}</td>
         <td>${escapeHtml(r.address)}</td>
         <td>${escapeHtml(r.phone)}</td>
-        <td class="text-end">${Number(r.employeeCount).toLocaleString("en-US")}</td>
+        <td class="text-end ${Number(r.employeeCount) > 400 ? 'text-success fw-bold' : ''}">${Number(r.employeeCount).toLocaleString("en-US")}</td>
         <td class="text-center" onclick="event.stopPropagation();">
           <button class="btn btn-sm btn-danger" onclick="deleteRow('${safeRowId}', 'table')" title="Delete row">
             <i class="fas fa-trash"></i>
@@ -109,7 +109,7 @@ function renderCustomRows(rows) {
         <div class="custom-table__cell" role="cell">${escapeHtml(r.city)}</div>
         <div class="custom-table__cell" role="cell">${escapeHtml(r.address)}</div>
         <div class="custom-table__cell" role="cell">${escapeHtml(r.phone)}</div>
-        <div class="custom-table__cell custom-table__cell--right" role="cell">${Number(r.employeeCount).toLocaleString("en-US")}</div>
+        <div class="custom-table__cell custom-table__cell--right ${Number(r.employeeCount) > 400 ? 'text-success fw-bold' : ''}" role="cell">${Number(r.employeeCount).toLocaleString("en-US")}</div>
         <div class="custom-table__cell text-center" role="cell" onclick="event.stopPropagation();">
           <button class="btn btn-sm btn-danger" onclick="deleteRow('${safeRowId}', 'custom')" title="Delete row">
             <i class="fas fa-trash"></i>
