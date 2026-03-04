@@ -4,6 +4,7 @@ let COMPANY_TABLE_ROWS = [];
 let COMPANY_CUSTOM_ROWS = [];
 let DELETED_ROWS_TABLE = new Set();
 let DELETED_ROWS_CUSTOM = new Set();
+let DEFAULT_CHECKED_APPLIED = false;
 
 async function loadCompanyTableData() {
   const response = await fetch("/api/company-table");
@@ -151,6 +152,29 @@ function renderAll() {
   if (COMPANY_CUSTOM_ROWS.length) {
     renderCustomRows(COMPANY_CUSTOM_ROWS);
   }
+}
+
+function applyDefaultCheckedRowsOnce() {
+  if (DEFAULT_CHECKED_APPLIED) return;
+
+  const thirdTableCheckbox = document.querySelector(
+    "#companyTableBody tr:nth-child(3) .row-checkbox"
+  );
+  if (thirdTableCheckbox) {
+    thirdTableCheckbox.checked = true;
+  }
+
+  const thirdCustomCheckbox = document.querySelector(
+    "#customCompanyTableBody .custom-table__row:nth-child(3) .row-checkbox-custom"
+  );
+  if (thirdCustomCheckbox) {
+    thirdCustomCheckbox.checked = true;
+  }
+
+  updateSelectAllState("table");
+  updateSelectAllState("custom");
+
+  DEFAULT_CHECKED_APPLIED = true;
 }
 
 function escapeHtml(str) {
@@ -506,6 +530,8 @@ document.addEventListener("DOMContentLoaded", () => {
       customState.direction = "desc";
       sortAndRenderTable(tableState, "company", "text");
       sortAndRenderCustom(customState, "company", "text");
+      // Make 3rd row checkbox checked in both tables by default (once)
+      applyDefaultCheckedRowsOnce();
     })
     .catch((err) => {
       console.error(err);
