@@ -67,6 +67,68 @@
         .svg-object-container:hover object {
             animation: pulse 2s ease-in-out infinite;
         }
+
+        /* CSS mask-image example */
+
+        .mask-image-example {
+            width: 300px;
+            height: 300px;
+            background-image: url('/static/images/download3.jpeg');
+            background-size: cover;
+            background-position: center;
+            -webkit-mask-image: url('/static/images/svg3.svg');
+            mask-image: url('/static/images/svg3.svg');
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+        }
+
+        /* Cursor examples (adapted from CSS cursor reference) */
+        .cursor-example-box {
+            border: 1px solid #dee2e6;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            min-width: 110px;
+            text-align: center;
+            background-color: #ffffff;
+        }
+        .cursor-auto { cursor: auto; }
+        .cursor-crosshair { cursor: crosshair; }
+        .cursor-pointer { cursor: pointer; }
+        .cursor-move { cursor: move; }
+        .cursor-text { cursor: text; }
+        .cursor-wait { cursor: wait; }
+        .cursor-help { cursor: help; }
+        .cursor-not-allowed { cursor: not-allowed; }
+
+        /* Border-image examples */
+        .border-image-example {
+            padding: 16px;
+            margin: 8px 0;
+            border: 15px solid transparent;
+        }
+        .border-image-simple {
+            border-image-source: url('/static/images/download4.jpeg');
+            border-image-slice: 30;
+            border-image-repeat: stretch;
+            border-image-width: 15;
+        }
+        .border-image-round {
+            border-image-source: url('/static/images/download5.jpeg');
+            border-image-slice: 30;
+            border-image-repeat: round;
+            border-image-width: 15;
+        }
+        .border-image-space {
+            border-image-source: url('/static/images/download6.jpeg');
+            border-image-slice: 30;
+            border-image-repeat: space;
+            border-image-width: 15;
+        }
     </style>
 </head>
 <body>
@@ -214,6 +276,100 @@
                             </object>
                         </div>
                         <p class="mt-3 text-muted small">The SVG is rendered inside the <code>&lt;object&gt;</code> element and can be interactive. Hover effects include scale, rotation, drop shadow, and pulse animation.</p>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h2 class="mb-3">Simple &lt;img&gt; with SVG src</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>SVG rendered directly via &lt;img&gt; tag:</strong></p>
+                        <img src="/static/images/svg4.svg" alt="Sample SVG 4" class="img-fluid rounded shadow" style="max-width: 400px;">
+                        <p class="mt-3 text-muted small">This SVG is loaded with a standard <code>&lt;img&gt;</code> element pointing to <code>/static/images/svg4.svg</code>.</p>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h2 class="mb-3">Simple &lt;img&gt; with SVG shapes</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>SVG with rectangle, circle and text:</strong></p>
+                        <img src="/static/images/svg5.svg" alt="SVG shapes example" class="img-fluid rounded shadow" style="max-width: 400px;">
+                        <p class="mt-3 text-muted small">This example uses a green background rectangle, a yellow circle, and red text, similar to the basic SVG shapes demo.</p>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h2 class="mb-3">CSS mask-image Example</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>Using <code>mask-image</code> to shape an image:</strong></p>
+                        <div class="d-flex flex-column flex-md-row align-items-start gap-4">
+                            <div class="mask-image-example rounded shadow"></div>
+                            <div class="flex-grow-1">
+                                <p class="mb-2">The photo is shown only where the SVG mask is opaque. The rest is hidden.</p>
+                                <pre class="bg-light p-3 rounded mb-2"><code>.mask-image-example {
+  background-image: url('/static/images/download3.jpeg');
+  -webkit-mask-image: url('/static/images/svg3.svg');
+  mask-image: url('/static/images/svg3.svg');
+}</code></pre>
+                                <p class="text-muted small mb-0">Support for <code>mask-image</code> varies by browser; <code>-webkit-mask-image</code> is included for WebKit-based browsers, following the pattern from the CSS mask-image demo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h2 class="mb-3">Cursor icon examples</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>Hover each box to see different <code>cursor</code> values:</strong></p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="cursor-example-box cursor-auto">auto</div>
+                            <div class="cursor-example-box cursor-crosshair">crosshair</div>
+                            <div class="cursor-example-box cursor-pointer">pointer</div>
+                            <div class="cursor-example-box cursor-move">move</div>
+                            <div class="cursor-example-box cursor-text">text</div>
+                            <div class="cursor-example-box cursor-wait">wait</div>
+                            <div class="cursor-example-box cursor-help">help</div>
+                            <div class="cursor-example-box cursor-not-allowed">not-allowed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h2 class="mb-3">CSS border-image examples</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>Using <code>border-image</code> with different <code>border-image-repeat</code> values:</strong></p>
+                        <div class="mb-3 border-image-example border-image-simple">
+                            <strong>border-image-repeat: stretch;</strong><br>
+                            The border image is stretched to fill the sides.
+                        </div>
+                        <div class="mb-3 border-image-example border-image-round">
+                            <strong>border-image-repeat: round;</strong><br>
+                            The border image is tiled and scaled so it fits a whole number of times.
+                        </div>
+                        <div class="mb-0 border-image-example border-image-space">
+                            <strong>border-image-repeat: space;</strong><br>
+                            The border image is tiled and extra space is distributed between tiles.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h2 class="mb-3">Emoji examples</h2>
+                    <div class="p-4 border rounded shadow">
+                        <p class="mb-3"><strong>Unicode emoji rendered as text (no &lt;img&gt; tag):</strong></p>
+                        <div class="d-flex flex-wrap gap-4">
+                            <div class="text-center">
+                                <h2>&#128507;</h2>
+                                <p class="mt-2 mb-0 text-muted small">Mount</p>
+                            </div>
+                            <div class="text-center">
+                                <h2>&#128640;</h2>
+                                <p class="mt-2 mb-0 text-muted small">Rocket emoji</p>
+                            </div>
+                            <div class="text-center">
+                                <h2>&#127758;</h2>
+                                <p class="mt-2 mb-0 text-muted small">Globe showing Americas</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
