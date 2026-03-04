@@ -729,5 +729,9 @@ def images():
 def tables():
     return render_template('tables.html')
 
+@app.route('/dynamic_switch')
+def dynamic_switch():
+    return render_template('dynamic_switch.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5001)

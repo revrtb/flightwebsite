@@ -1,0 +1,180 @@
+<div>
+    <h1>Conditional Automation Test Playground</h1>
+
+    <!-- SECTION 1: Basic Buttons -->
+
+    <h2>Buttons State</h2>
+    <div class="button-row">
+        <button id="enabledBtn" data-testid="enabled-btn" class="btn primary">
+            Enabled Button
+        </button>
+
+        <button id="disabledBtn" data-testid="disabled-btn" class="btn success" disabled>
+            Disabled Button
+        </button>
+
+        <button id="toggleDisableBtn" data-testid="toggle-disable-btn" class="btn warning">
+            Toggle Enabled/Disabled
+        </button>
+
+        <div id="buttonMessage" class="box" data-state="empty"></div>
+    </div>
+</div>
+
+<!-- SECTION 2: Visibility -->
+<div>
+    <h2>Visibility Section</h2>
+    <div class="button-row">
+
+        <button id="toggleVisibilityBtn" data-testid="toggle-visibility-btn" class="btn primary">
+            Toggle Secret Section
+        </button>
+
+        <div id="secretSection" data-testid="secret-section" class="box hidden">
+            Secret Content Visible
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 3: Dynamic Text -->
+<div>
+    <h2>Dynamic Text</h2>
+    <div class="button-row">
+
+        <button id="delayedTextBtn" data-testid="delayed-text-btn" class="btn success">
+            Show Text After 3s
+        </button>
+
+        <div id="delayedText" data-testid="delayed-text" class="box"></div>
+    </div>
+</div>
+
+<!-- SECTION 4: Status Badge -->
+<h2>Status Badge</h2>
+<div class="button-row">
+
+    <button id="toggleStatusBtn" data-testid="toggle-status-btn" class="btn danger">
+        Toggle Status
+    </button>
+
+    <span id="statusBadge" data-testid="status-badge" class="status inactive" data-status="inactive">
+        INACTIVE
+    </span>
+
+</div>
+
+<!-- SECTION 5: Input Validation -->
+<h2>Input Validation</h2>
+<div class="button-row">
+
+    <input id="nameInput" data-testid="name-input" placeholder="Enter at least 3 characters" />
+
+    <div id="inputError" data-testid="input-error" class="error hidden">
+        Name must be at least 3 characters
+    </div>
+</div>
+
+<!-- SECTION 6: Ambiguous Buttons -->
+<h2>Ambiguous Buttons</h2>
+<div class="button-row">
+
+    <button class="btn primary" id="submitBtn1" data-testid="duplicate-btn-1" data-index="1">
+        Submit
+    </button>
+
+    <button class="btn primary" id="submitBtn2" data-testid="duplicate-btn-2" data-index="2">
+        Submit
+    </button>
+
+    <div id="submitResult" data-testid="submit-result" class="box" data-last-clicked="none" data-click-count="0">
+    </div>
+</div>
+
+<h2>Selection Controls</h2>
+<div class="button-row">
+
+    <!-- Dropdown -->
+    <label for="countrySelect">Country:</label>
+    <select id="countrySelect" data-testid="country-select">
+        <option value="">-- Select Country --</option>
+        <option value="armenia">Armenia</option>
+        <option value="germany">Germany</option>
+        <option value="japan">Japan</option>
+    </select>
+
+    <div id="countryResult" class="box" data-testid="country-result" data-selected="none">
+    </div>
+
+</div>
+
+<!-- Radio Buttons -->
+<h3>Payment Method</h3>
+<div class="button-row">
+
+    <label>
+        <input type="radio" name="payment" value="card" data-testid="radio-card">
+        Credit Card
+    </label>
+
+    <label>
+        <input type="radio" name="payment" value="paypal" data-testid="radio-paypal">
+        PayPal
+    </label>
+
+    <div id="paymentResult" class="box" data-testid="payment-result" data-payment="none">
+    </div>
+</div>
+
+
+<!-- Checkbox Group -->
+<h3>Features</h3>
+<div class="button-row">
+
+    <label>
+        <input type="checkbox" value="feature_A" data-testid="checkbox-a">
+        Feature A
+    </label>
+
+    <label>
+        <input type="checkbox" value="feature_B" data-testid="checkbox-b">
+        Feature B
+    </label>
+
+    <label>
+        <input type="checkbox" value="feature_C" data-testid="checkbox-c">
+        Feature C
+    </label>
+
+    <div id="featureResult" class="box" data-testid="feature-result" data-selected-count="0">
+    </div>
+</div>
+
+<div>
+    <h2>Dynamic Elements</h2>
+    <div class="button-row">
+
+        <button id="addItemBtn" data-testid="add-item-btn" class="btn primary">
+            Add Item
+        </button>
+
+        <button id="addDelayedItemBtn" data-testid="add-delayed-item-btn" class="btn success">
+            Add Item After 2s
+        </button>
+
+    </div>
+    <div id="itemsContainer" data-testid="items-container" class="box" data-count="0">
+        <div id="emptyState" data-testid="empty-state">
+            No items available
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div id="autoModal" class="modal hidden">
+    <div class="modal-content">
+        <span id="closeModal" class="close-btn">&times;</span>
+        <h2>Automatic Modal</h2>
+        <p>This modal opened because URL contains <code>?modal=yes</code>.</p>
+    </div>
+</div>
+
