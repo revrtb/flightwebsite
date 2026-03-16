@@ -31,6 +31,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Open /images in new tab
+  function initOpenImagesButton() {
+    const openImagesBtn = $("openImagesBtn");
+    if (!openImagesBtn) return;
+    openImagesBtn.addEventListener("click", () => {
+      window.open("/images", "_blank");
+    });
+  }
+
   // Visibility
   function initVisibility() {
     const toggleVisibilityBtn = $("toggleVisibilityBtn");
@@ -219,6 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize all
   initButtonsState();
+  initOpenImagesButton();
   initVisibility();
   initDelayedText();
   initStatusBadge();
