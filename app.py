@@ -737,5 +737,9 @@ def dynamic_switch():
 def actionable():
     return render_template('actionable.html')
 
+@app.route('/custom')
+def custom():
+    return render_template('custom.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5001)
