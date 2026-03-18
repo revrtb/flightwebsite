@@ -733,5 +733,9 @@ def tables():
 def dynamic_switch():
     return render_template('dynamic_switch.html')
 
+@app.route('/actionable')
+def actionable():
+    return render_template('actionable.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5001)
