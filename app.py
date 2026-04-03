@@ -6,12 +6,32 @@ from datetime import datetime, timedelta
 import random
 import sqlite3
 import os
+import time
 
 app = Flask(__name__)
 app.secret_key = 'airline_demo_secret_key'
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'tables.db')
+
+# Lazy-loaded card grid on /data
+DATA_LAZY_TOTAL_PAGES = 10
+DATA_ITEMS_PER_PAGE = 12
+
+DATA_IMAGE_POOL = [
+    '/static/images/svg1.svg',
+    '/static/images/svg2.svg',
+    '/static/images/svg3.svg',
+    '/static/images/svg4.svg',
+    '/static/images/svg5.svg',
+    '/static/images/favicon1.svg',
+    '/static/images/WB.svg',
+]
+
+DATA_LABEL_PREFIXES = [
+    'Aurora', 'Beacon', 'Cedar', 'Delta', 'Eagle', 'Falcon', 'Glacier',
+    'Harbor', 'Island', 'Juniper', 'Kestrel', 'Lagoon', 'Meadow', 'Nova',
+]
 
 # Static company data used on /tables page (two different datasets)
 COMPANY_TABLE_ROWS = [
@@ -740,6 +760,51 @@ def actionable():
 @app.route('/custom')
 def custom():
     return render_template('custom.html')
+
+
+@app.route('/data')
+def data_page():
+    return render_template(
+        'data.html',
+        data_items_per_page=DATA_ITEMS_PER_PAGE,
+        data_total_pages=DATA_LAZY_TOTAL_PAGES,
+    )
+
+
+@app.route('/api/data-page')
+def api_data_page():
+    try:
+        page = int(request.args.get('page', 1))
+    except (TypeError, ValueError):
+        page = 1
+    if page < 1 or page > DATA_LAZY_TOTAL_PAGES:
+        return jsonify({
+            'items': [],
+            'page': page,
+            'hasMore': False,
+            'totalPages': DATA_LAZY_TOTAL_PAGES,
+        })
+    time.sleep(2)
+    items = []
+    start = (page - 1) * DATA_ITEMS_PER_PAGE
+    for i in range(DATA_ITEMS_PER_PAGE):
+        global_idx = start + i
+        rng = random.Random(global_idx * 9973 + page * 131)
+        image_url = rng.choice(DATA_IMAGE_POOL)
+        label = f'{rng.choice(DATA_LABEL_PREFIXES)} {global_idx + 1}'
+        items.append({
+            'id': global_idx + 1,
+            'image': image_url,
+            'text': label,
+        })
+    has_more = page < DATA_LAZY_TOTAL_PAGES
+    return jsonify({
+        'items': items,
+        'page': page,
+        'hasMore': has_more,
+        'totalPages': DATA_LAZY_TOTAL_PAGES,
+    })
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5001)

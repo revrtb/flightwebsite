@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom - American Airlines</title>
+    <title>Data - American Airlines</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="/static/css/main.css" rel="stylesheet">
 </head>
-<body>
-    <!-- Navigation -->
+<body
+    data-total-pages="{{ data_total_pages }}"
+    data-items-per-page="{{ data_items_per_page }}"
+>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="/">
@@ -34,10 +36,10 @@
                         <a class="nav-link" href="/actionable"><i class="fas fa-bolt me-1"></i>Actionable</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/custom"><i class="fas fa-layer-group me-1"></i>Custom</a>
+                        <a class="nav-link" href="/custom"><i class="fas fa-layer-group me-1"></i>Custom</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/data"><i class="fas fa-database me-1"></i>Data</a>
+                        <a class="nav-link active" href="/data"><i class="fas fa-database me-1"></i>Data</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -52,53 +54,24 @@
         </div>
     </nav>
 
-    <div class="container py-5">
-        <h1 class="mb-4">
-            <i class="fas fa-layer-group me-2 text-primary"></i>
-            Custom
+    <div class="container py-4 data-page">
+        <h1 class="mb-2">
+            <i class="fas fa-database me-2 text-primary"></i>
+            Data
         </h1>
+        <p class="text-muted mb-4">
+            Cards load in pages as you scroll. There are <strong>{{ data_total_pages }}</strong> pages of items
+            (<span id="dataPageSizeHint">{{ data_items_per_page }}</span> per page), four cards per row.
+        </p>
 
-        <div class="row g-4">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Main page button</h5>
-                        <button id="customClickBtn" class="btn btn-primary">
-                            Click
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Iframe button</h5>
-                        <iframe
-                            title="Custom iframe"
-                            style="width: 100%; height: 160px; border: 2px solid #dee2e6; border-radius: 10px;"
-                            srcdoc="<!doctype html>
-<html lang='en'>
-  <head>
-    <meta charset='utf-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet' />
-    <style>
-      body { padding: 16px; }
-    </style>
-  </head>
-  <body>
-    <button id='customClickBtnInFrame' class='btn btn-primary'>Click</button>
-  </body>
-</html>">
-                        </iframe>
-                    </div>
-                </div>
-            </div>
+        <div class="data-cards-wrap">
+            <div id="dataCardsGrid" class="data-cards-grid" role="list"></div>
         </div>
+        <div id="dataLoadSentinel" class="data-load-sentinel" aria-hidden="true"></div>
+        <p id="dataLoadStatus" class="text-muted small mt-2 mb-0"></p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/data.js"></script>
 </body>
 </html>
-
